@@ -21,10 +21,10 @@ namespace Sort
         }
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите колисество элементов в массиве");
+            Console.WriteLine("Введите количество элементов в массиве");
             var inputString = Console.ReadLine();
-            int number = int.Parse(inputString);
-            int[] arrayOfNumbers = new int[number];
+            int numberOFElementsInArray = int.Parse(inputString);
+            int[] arrayOfNumbers = new int[numberOFElementsInArray];
             for(int i = 0; i < arrayOfNumbers.Length; i++)
             {
                 Random random = new Random();

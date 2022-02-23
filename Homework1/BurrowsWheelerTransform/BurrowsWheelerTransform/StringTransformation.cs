@@ -4,10 +4,10 @@ namespace BurrowsWheelerTransform
 {
     public class StringTransformation
     {
-        public string DirectBurrowsWheelerTransformation(string stringToConvert, ref int number)
+        public string DirectBurrowsWheelerTransformation(string stringToConvert, ref int index)
         {
             string[] arrayOfString = new string[stringToConvert.Length];
-            string convertString = "";
+            string convertedString = "";
             for (int i = 0; i < stringToConvert.Length; i++)
             {
                 arrayOfString[i] = stringToConvert;
@@ -18,56 +18,56 @@ namespace BurrowsWheelerTransform
             Array.Sort(arrayOfString);
             for(int i  = 0; i < stringToConvert.Length; i++)
             {
-                convertString += arrayOfString[i][stringToConvert.Length - 1];
+                convertedString += arrayOfString[i][stringToConvert.Length - 1];
             }
-            number = Array.IndexOf(arrayOfString, stringToConvert);
-            return convertString;
+            index = Array.IndexOf(arrayOfString, stringToConvert);
+            return convertedString;
         }
-        public string InverseBurrowsWheelerTransformation(string convertString, int index)
+        public string InverseBurrowsWheelerTransformation(string stringToConvert, int index)
         {
-            if (Array.Equals(convertString, ""))
+            if (Array.Equals(stringToConvert, ""))
             {
                 return "";
             }
-            int[] count = new int[1104];
+            int[] arrayForCharacterCounter = new int[1104];
             for (int i = 0; i < 1104; i++)
             {
-                count[i] = 0;
+                arrayForCharacterCounter[i] = 0;
             }
-            for (int i = 0; i < convertString.Length; i++)
+            for (int i = 0; i < stringToConvert.Length; i++)
             {
-                count[convertString[i]]++;
+                arrayForCharacterCounter[stringToConvert[i]]++;
             }
-            int sum = 0;
+            int variableForRestoringSortedColumn = 0;
             for (int i = 0; i < 1104; i++)
             {
-                sum += count[i];
-                count[i] = sum - count[i];
+                variableForRestoringSortedColumn += arrayForCharacterCounter[i];
+                arrayForCharacterCounter[i] = variableForRestoringSortedColumn - arrayForCharacterCounter[i];
             }
-            int[] vector = new int[convertString.Length];
-            for (int i = 0; i < convertString.Length; i++)
+            int[] inverseTransformationVector = new int[stringToConvert.Length];
+            for (int i = 0; i < stringToConvert.Length; i++)
             {
-                vector[count[convertString[i]]] = i;
-                count[convertString[i]]++;
+                inverseTransformationVector[arrayForCharacterCounter[stringToConvert[i]]] = i;
+                arrayForCharacterCounter[stringToConvert[i]]++;
             }
-            char[] newString = new char[convertString.Length];
-            int currentIndex = vector[index];
-            for(int i  = 0; i < convertString.Length; i++)
+            char[] convertedString = new char[stringToConvert.Length];
+            int currentIndex = inverseTransformationVector[index];
+            for(int i  = 0; i < stringToConvert.Length; i++)
             {
-                newString[i] = convertString[currentIndex];
-                currentIndex = vector[currentIndex];
+                convertedString[i] = stringToConvert[currentIndex];
+                currentIndex = inverseTransformationVector[currentIndex];
             }
-            return string.Join("", newString);
+            return string.Join("", convertedString);
         }
         static void Main(string[] args)
         {
-            StringTransformation program = new StringTransformation();
+            StringTransformation transformation = new StringTransformation();
             int number = 0;
             Console.WriteLine("please enter the line");
             string inputString = Console.ReadLine();
-            string newString = program.DirectBurrowsWheelerTransformation(inputString, ref number);
+            string newString = transformation.DirectBurrowsWheelerTransformation(inputString, ref number);
             Console.WriteLine("Direct conversion and index line in a table : {0}, {1}", newString, number);
-            string answer = program.InverseBurrowsWheelerTransformation(newString, number);
+            string answer = transformation.InverseBurrowsWheelerTransformation(newString, number);
             Console.WriteLine("reverse transformation : {0}", answer);
         }
     }

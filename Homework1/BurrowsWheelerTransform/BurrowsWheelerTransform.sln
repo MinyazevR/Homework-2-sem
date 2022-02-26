@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31410.357
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurrowsWheelerTransform", "BurrowsWheelerTransform\BurrowsWheelerTransform.csproj", "{645E81BC-E393-41BD-AA35-9B73567B6D48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBurrowsWheelerTransform", "TestBurrowsWheelerTransform\TestBurrowsWheelerTransform.csproj", "{91296AFA-03BF-4539-A6F9-775BEABC2826}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestBurrowsWheelerTransform", "TestBurrowsWheelerTransform\TestBurrowsWheelerTransform.csproj", "{91296AFA-03BF-4539-A6F9-775BEABC2826}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

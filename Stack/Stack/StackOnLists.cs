@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Stack;
 
+// A class representing the stack
 public class StackOnLists<T>
 {
     private StackOnLists<T>? head;
@@ -10,11 +11,13 @@ public class StackOnLists<T>
     private T? value;
     private int numberOfElements;
 
+    // Function for checking the stack for emptiness
     public bool IsEmpty()
     {
         return numberOfElements == 0;
     }
 
+    // Function for adding an element to the stack
     public void Push(T value)
     {
         numberOfElements++;
@@ -24,6 +27,7 @@ public class StackOnLists<T>
         head.value = value;
     }
 
+    // Function for removing an element from the stack
     public T Pop()
     {
         if (head == null || head.value == null)
@@ -36,11 +40,13 @@ public class StackOnLists<T>
         return topOfSTack.value;
     }
 
+    // Function that returns the number of elements in the stack
     public int ReturnNumberOfElements()
     {
         return numberOfElements;
     }
 
+    // Function that returns the top of the stack
     public T ReturnTopOfTheStack()
     {
         if (head == null || head.value == null)
@@ -50,6 +56,7 @@ public class StackOnLists<T>
         return head.value;
     }
 
+    // Function for stack printing
     public void PrintStack()
     {
         if (head == null)

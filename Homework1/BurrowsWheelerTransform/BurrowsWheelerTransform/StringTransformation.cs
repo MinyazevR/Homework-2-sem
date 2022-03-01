@@ -1,8 +1,12 @@
 ﻿using System;
 
 namespace BurrowsWheelerTransform;
+
 public class StringTransformation
 {
+    // Function for direct Burrows - Wheeler transormation
+    // The input argument is a string
+    // The function returns the transformed string and the index of the string for the reverse conversion
     public static (string, int) DirectBurrowsWheelerTransformation(string stringToConvert)
     {
         var arrayOfString = new string[stringToConvert.Length];
@@ -22,6 +26,9 @@ public class StringTransformation
         return (convertedString, Array.IndexOf(arrayOfString, stringToConvert));
     }
 
+    // Function for inverse Burrows - Wheeler transormation
+    // Input arguments are the transformed string and the index of the string in the array
+    // The function returns the string in its original form
     public static string InverseBurrowsWheelerTransformation(string stringToConvert, int index)
     {
         if (stringToConvert == "")

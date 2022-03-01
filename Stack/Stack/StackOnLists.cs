@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Stack;
 
-// A class representing the stack
+// A class representing the stack on lists
 public class StackOnLists<T>
 {
     private StackOnLists<T>? head;

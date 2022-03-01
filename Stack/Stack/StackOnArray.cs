@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Stack;
 
-// A class representing the stack
+// A class representing the stack on arrays
 public class StackOnArray<T>
 {
     private T[] values;

@@ -6,6 +6,7 @@ namespace TestStack;
 [TestClass]
 public class TestStackOnLists
 {
+    // Testing a function for adding an element to the stack
     [TestMethod]
     public void TestPush()
     {
@@ -20,6 +21,7 @@ public class TestStackOnLists
         Assert.AreEqual(stackOnLists.ReturnTopOfTheStack(), 5);
     }
 
+    // Testing a function to remove an element from the stack
     [TestMethod]
     public void TestPop()
     {
@@ -36,6 +38,7 @@ public class TestStackOnLists
         Assert.AreEqual(stackOnLists.ReturnTopOfTheStack(), "first");
     }
 
+    // Testing a function to find the number of elements in the stack
     [TestMethod]
     public void TestReturnNumberOfElements()
     {

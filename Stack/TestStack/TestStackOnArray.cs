@@ -3,9 +3,12 @@ using Stack;
 
 namespace TestStack;
 
+// A class for testing the stack on arrays
 [TestClass]
 public class TestStackOnArray
-{ 
+{
+
+    // Testing a function for adding an element to the stack
     [TestMethod]
     public void TestPush()
     {
@@ -20,6 +23,7 @@ public class TestStackOnArray
         Assert.AreEqual(stackOnArray.ReturnTopOfTheStack(), 5);
     }
 
+    // Testing a function to remove an element from the stack
     [TestMethod]
     public void TestPop()
     {
@@ -36,6 +40,7 @@ public class TestStackOnArray
         Assert.AreEqual(stackOnArray.ReturnTopOfTheStack(), "first");
     }
 
+    // Testing a function to find the number of elements in the stack
     [TestMethod]
     public void TestReturnNumberOfElements()
     {

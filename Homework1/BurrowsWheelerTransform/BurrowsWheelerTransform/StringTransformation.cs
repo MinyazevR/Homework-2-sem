@@ -2,6 +2,7 @@
 
 namespace BurrowsWheelerTransform;
 
+// A class for implementing the Burrows - Wheeler transformation
 public class StringTransformation
 {
     // Function for direct Burrows - Wheeler transormation

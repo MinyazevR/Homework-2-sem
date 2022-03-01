@@ -3,9 +3,11 @@ using BurrowsWheelerTransform;
 
 namespace TestBurrowsWheelerTransform;
 
+// A class for testing the direct Burrows - Wheeler transformation
 [TestClass]
 public class DirectBurrowsWheelerTransformationTest
-{ 
+{
+    // Function for reverse conversion test on a specific string
     [TestMethod]
     public void FirstRandomDirectBurrowsWheelerTransformation()
     {
@@ -13,6 +15,7 @@ public class DirectBurrowsWheelerTransformationTest
         Assert.AreEqual(newString, "BCABAAA");
     }
 
+    // Function for reverse conversion test on a specific string
     [TestMethod]
     public void SecondRandomDirectBurrowsWheelerTransformation()
     {
@@ -20,6 +23,7 @@ public class DirectBurrowsWheelerTransformationTest
         Assert.AreEqual(newString, "–ƒ¿ –¿¿¿¿¡¡");
     }
 
+    // Function for reverse conversion test on an empty string
     [TestMethod]
     public void DirectBurrowsWheelerTransformationForEmptyString()
     {
@@ -27,6 +31,7 @@ public class DirectBurrowsWheelerTransformationTest
         Assert.AreEqual(newString, "");
     }
 
+    // Function for the reverse conversion test on strings of identical characters
     [TestMethod]
     public void DirectBurrowsWheelerTransformationForStringOfEqualSymbol()
     {

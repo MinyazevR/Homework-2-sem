@@ -1,6 +1,4 @@
-﻿namespace Stack;
-
-public class Solution
+﻿public class Solution
 {
     static void Main()
     {

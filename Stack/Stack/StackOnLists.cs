@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace Stack;
 
+public class PersonException : Exception
+{
+    public PersonException(string? message) : base(message){}
+}
+
 // A class representing the stack on lists
 public class StackOnLists<T>
 {
@@ -20,7 +25,6 @@ public class StackOnLists<T>
     }
     private StackElement? head;
     private int numberOfElements;
-
     // Function for checking the stack for emptiness
     public bool IsEmpty()
     {
@@ -37,14 +41,25 @@ public class StackOnLists<T>
     // Function for removing an element from the stack
     public T? Pop()
     {
-        if (head == null)
+        try
         {
-            throw new InvalidOperationException("Stack is empty");
+            if (head == null)
+            {
+                throw new NullReferenceException("Stack is empty");
+            }
         }
-        T? value = head.publicValue;
-        head = head.publicNext;
-        numberOfElements--;
-        return value;
+        catch (PersonException ex)
+        {
+            Console.WriteLine($"Ошибка: {ex.Message}");
+        }
+        if (head != null)
+        {
+            T? value = head.publicValue;
+            head = head.publicNext;
+            numberOfElements--;
+            return value;
+        }
+        return default(T);
     }
 
     // Function that returns the number of elements in the stack
@@ -56,11 +71,22 @@ public class StackOnLists<T>
     // Function that returns the top of the stack
     public T? ReturnTopOfTheStack()
     {
-        if (head == null)
+        try
         {
-            throw new InvalidOperationException("Stack is empty");
+            if (head == null)
+            {
+                throw new NullReferenceException("Stack is empty");
+            }
         }
-        return head.publicValue;
+        catch (PersonException ex)
+        {
+            Console.WriteLine($"Ошибка: {ex.Message}");
+        }
+        if (head != null)
+        {
+            return head.publicValue;
+        }
+         return default(T);
     }
 
     // Function for stack printing
@@ -68,7 +94,7 @@ public class StackOnLists<T>
     {
         if (head == null)
         {
-            throw new InvalidOperationException("Stack is empty");
+            return;
         }
         StackElement copyHead = head;
         while (copyHead != null && copyHead.publicNext != null)
@@ -80,5 +106,13 @@ public class StackOnLists<T>
         {
             Console.Write($"{copyHead.publicValue} ");
         }
+    }
+}
+
+public class Solution
+{
+    static void Main()
+    {
+        return;
     }
 }

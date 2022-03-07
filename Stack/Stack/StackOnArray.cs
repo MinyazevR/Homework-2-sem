@@ -34,9 +34,16 @@ public class StackOnArray<T>
     // Function for removing an element from the stack
     public T Pop()
     {
-        if(numberOfElements == 0)
+        try
         {
-            throw new InvalidOperationException("Stack is empty");
+            if (numberOfElements == 0)
+            {
+                throw new NullReferenceException("Stack is empty");
+            }
+        }
+        catch (PersonException ex)
+        {
+            Console.WriteLine($"Ошибка: {ex.Message}");
         }
         T topOfSTack = values[numberOfElements - 1];
         numberOfElements--;
@@ -45,7 +52,18 @@ public class StackOnArray<T>
 
     // Function that returns the top of the stack
     public T ReturnTopOfTheStack()
-    { 
+    {
+        try
+        {
+            if (numberOfElements == 0)
+            {
+                throw new NullReferenceException("Stack is empty");
+            }
+        }
+        catch (PersonException ex)
+        {
+            Console.WriteLine($"Ошибка: {ex.Message}");
+        }
         return values[numberOfElements - 1]; 
     }
 

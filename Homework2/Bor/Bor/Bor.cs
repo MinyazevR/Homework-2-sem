@@ -17,7 +17,7 @@ public class Bor
         /// Array of vertices to move from one vertex to another
         /// The bor can store Latin alphabet characters, numbers
         /// </summary>
-        public Node?[] next = new Node['z'];
+        public Node?[] next = new Node['z' + 1];
 
         // A field for storing information about whether a character is the end of a string
         public bool isTerminal { get; set; }

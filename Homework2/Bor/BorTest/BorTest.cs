@@ -56,5 +56,36 @@ namespace BorTest
             Assert.IsTrue(bor?.Remove("hello"));
             Assert.IsFalse(bor?.Contains("hello"));
         }
+
+        [Test]
+        public void FindSizeAfterAdd()
+        {
+            Assert.IsTrue(bor?.Add("hello"));
+            Assert.AreEqual(bor?.Size(), 5);
+        }
+
+        [Test]
+        public void FindSizeAfterAddStringFromExistingSymbol()
+        {
+            Assert.IsTrue(bor?.Add("hello"));
+            Assert.IsTrue(bor?.Add("hell"));
+            Assert.AreEqual(bor?.Size(), 5);
+        }
+
+        [Test]
+        public void FindSizeAfterAddStringFromNonExistingSymbol()
+        {
+            Assert.IsTrue(bor?.Add("hello"));
+            Assert.IsTrue(bor?.Add("bye"));
+            Assert.AreEqual(bor?.Size(), 8);
+        }
+
+        [Test]
+        public void FindSizeAfterAddStringFromSomeMatchingSymbol()
+        {
+            Assert.IsTrue(bor?.Add("hello"));
+            Assert.IsTrue(bor?.Add("hey"));
+            Assert.AreEqual(bor?.Size(), 6);
+        }
     }
 }

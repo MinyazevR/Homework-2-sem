@@ -6,9 +6,19 @@ namespace Stack;
 // A class representing the stack on lists
 public class StackOnLists<T>
 {
-    private StackOnLists<T>? head;
-    private StackOnLists<T>? next;
-    private T? value;
+    private class StackElement
+    {
+        private StackElement? Next { get; set; }
+        private T? value;
+        public T? publicValue { get => value; set { } }
+        public StackElement? publicNext { get => Next; set { } }
+        public StackElement(T value, StackElement? next)
+        {
+            this.value = value;
+            this.Next = next;
+        }
+    }
+    private StackElement? head;
     private int numberOfElements;
 
     // Function for checking the stack for emptiness
@@ -21,23 +31,20 @@ public class StackOnLists<T>
     public void Push(T value)
     {
         numberOfElements++;
-        StackOnLists<T> newHead = new StackOnLists<T>();
-        newHead.next = head;
-        head = newHead;
-        head.value = value;
+        head = new StackElement(value, head);
     }
 
     // Function for removing an element from the stack
-    public T Pop()
+    public T? Pop()
     {
-        if (head == null || head.value == null)
+        if (head == null)
         {
             throw new InvalidOperationException("Stack is empty");
         }
-        var topOfSTack = head;
-        head = head.next;
+        T? value = head.publicValue;
+        head = head.publicNext;
         numberOfElements--;
-        return topOfSTack.value;
+        return value;
     }
 
     // Function that returns the number of elements in the stack
@@ -47,13 +54,13 @@ public class StackOnLists<T>
     }
 
     // Function that returns the top of the stack
-    public T ReturnTopOfTheStack()
+    public T? ReturnTopOfTheStack()
     {
-        if (head == null || head.value == null)
+        if (head == null)
         {
             throw new InvalidOperationException("Stack is empty");
         }
-        return head.value;
+        return head.publicValue;
     }
 
     // Function for stack printing
@@ -63,15 +70,15 @@ public class StackOnLists<T>
         {
             throw new InvalidOperationException("Stack is empty");
         }
-        StackOnLists<T> copyHead = head;
-        while (copyHead != null && copyHead.next != null)
+        StackElement copyHead = head;
+        while (copyHead != null && copyHead.publicNext != null)
         {
-            Console.Write($"{copyHead.value} ");
-            copyHead = copyHead.next;
+            Console.Write($"{copyHead.publicValue} ");
+            copyHead = copyHead.publicNext;
         }
-        if (copyHead != null && copyHead.value != null)
+        if (copyHead != null && copyHead.publicValue != null)
         {
-            Console.Write($"{copyHead.value} ");
+            Console.Write($"{copyHead.publicValue} ");
         }
     }
 }

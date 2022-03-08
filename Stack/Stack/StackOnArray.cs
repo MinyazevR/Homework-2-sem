@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Stack;
 
 /// <summary>
-/// A class representing the stack on arrat=ys
+/// A class representing the stack on arrays
 /// </summary>
 public class StackOnArray<T>
 {

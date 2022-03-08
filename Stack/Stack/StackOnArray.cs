@@ -41,7 +41,7 @@ public class StackOnArray<T>
                 throw new NullReferenceException("Stack is empty");
             }
         }
-        catch (PersonException ex)
+        catch (StackException ex)
         {
             Console.WriteLine($"Ошибка: {ex.Message}");
         }
@@ -60,7 +60,7 @@ public class StackOnArray<T>
                 throw new NullReferenceException("Stack is empty");
             }
         }
-        catch (PersonException ex)
+        catch (StackException ex)
         {
             Console.WriteLine($"Ошибка: {ex.Message}");
         }

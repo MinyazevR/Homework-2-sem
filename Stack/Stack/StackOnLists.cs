@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Stack;
 
-public class PersonException : Exception
+public class StackException : Exception
 {
-    public PersonException(string? message) : base(message){}
+    public StackException(string? message) : base(message){}
 }
 
 // A class representing the stack on lists
@@ -48,7 +48,7 @@ public class StackOnLists<T>
                 throw new NullReferenceException("Stack is empty");
             }
         }
-        catch (PersonException ex)
+        catch (StackException ex)
         {
             Console.WriteLine($"Ошибка: {ex.Message}");
         }
@@ -78,7 +78,7 @@ public class StackOnLists<T>
                 throw new NullReferenceException("Stack is empty");
             }
         }
-        catch (PersonException ex)
+        catch (StackException ex)
         {
             Console.WriteLine($"Ошибка: {ex.Message}");
         }

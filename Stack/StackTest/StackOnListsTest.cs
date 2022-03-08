@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
-
 using Stack;
 using System;
 
 namespace StackTest;
 
+/// <summary>
+/// A class for testing the stack on lists
+/// </summary>
 public class StackOnListsTest
 {
     StackOnLists<int>? stackOnLists;

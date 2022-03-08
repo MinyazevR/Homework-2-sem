@@ -3,12 +3,17 @@ using System.Collections.Generic;
 
 namespace Stack;
 
+/// <summary>
+/// A class for creating custom exceptions
+/// </summary>
 public class StackException : Exception
 {
     public StackException(string? message) : base(message){}
 }
 
-// A class representing the stack on lists
+/// <summary>
+/// A class representing the stack on lists
+/// </summary>
 public class StackOnLists<T>
 {
     private class StackElement
@@ -25,20 +30,30 @@ public class StackOnLists<T>
     }
     private StackElement? head;
     private int numberOfElements;
-    // Function for checking the stack for emptiness
+
+    /// <summary>
+    /// Function for checking the stack for emptiness
+    /// </summary>
+    /// <returns> True - if the stack is empty </returns>
     public bool IsEmpty()
     {
         return numberOfElements == 0;
     }
 
-    // Function for adding an element to the stack
+    /// <summary>
+    /// Function for adding an element to the stack
+    /// </summary>
+    /// <param name="value"> The value to add</param>
     public void Push(T value)
     {
         numberOfElements++;
         head = new StackElement(value, head);
     }
 
-    // Function for removing an element from the stack
+    /// <summary>
+    /// Function for removing an element from the stack
+    /// </summary>
+    /// <returns> Remote value</returns>
     public T? Pop()
     {
         try
@@ -62,13 +77,19 @@ public class StackOnLists<T>
         return default(T);
     }
 
-    // Function that returns the number of elements in the stack
+    /// <summary>
+    /// Function that returns the number of elements in the stack
+    /// </summary>
+    /// <returns>Number of elements in stack</returns>
     public int ReturnNumberOfElements()
     {
         return numberOfElements;
     }
 
-    // Function that returns the top of the stack
+    /// <summary>
+    /// Function that returns the top of the stack
+    /// </summary>
+    /// <returns>Top of the stack</returns>
     public T? ReturnTopOfTheStack()
     {
         try
@@ -89,7 +110,9 @@ public class StackOnLists<T>
          return default(T);
     }
 
-    // Function for stack printing
+    /// <summary>
+    /// Function for stack printing
+    /// </summary>
     public void PrintStack()
     {
         if (head == null)

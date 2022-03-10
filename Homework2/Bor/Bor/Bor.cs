@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace String;
+namespace BorSpace;
 
-public class BorException : Exception
+public class MyException : Exception
 {
-    public BorException(string? message) : base(message) { }
+    public MyException(string message) : base(message) { }
 }
 
 /// <summary>
@@ -40,7 +40,7 @@ public class Bor
     {
         if (symbol > 'z')
         {
-            throw new Exception("The bor can store Latin alphabet characters, numbers"); ;
+            throw new MyException("The bor can store Latin alphabet characters, numbers");
         }
     }
 
@@ -58,14 +58,6 @@ public class Bor
         Node? node = root;
         for(int i = 0; i < element.Length; i++)
         {
-            try
-            {
-                ValidCharacter(element[i]);
-            }
-            catch(BorException exception)
-            {
-                Console.WriteLine($"Ошибка: {exception.Message}");
-            }
             if (node != null && node.next[element[i]] == null)
             {
                 node.next[element[i]] = new Node();
@@ -94,6 +86,15 @@ public class Bor
         Node? node = root;
         for (int i = 0; i < element.Length; i++)
         {
+            try
+            {
+                ValidCharacter(element[i]);
+            }
+            catch (MyException exception)
+            {
+                Console.WriteLine($"Ошибка: {exception.Message}");
+                throw;
+            }
             node = node.next[element[i]];
             if (node == null)
             {
@@ -112,6 +113,15 @@ public class Bor
         Node? node = root;
         for (int i = 0; i < prefix.Length;i++)
         {
+            try
+            {
+                ValidCharacter(prefix[i]);
+            }
+            catch (MyException exception)
+            {
+                Console.WriteLine($"Ошибка: {exception.Message}");
+                throw;
+            }
             if (node?.next[prefix[i]] != null)
             {
                 node = node.next[prefix[i]];
@@ -167,6 +177,5 @@ public class Bor
 
     static void Main(string[] args)
     {
-        return;
     }
 }

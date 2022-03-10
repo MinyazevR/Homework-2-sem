@@ -2,6 +2,11 @@
 
 namespace String;
 
+public class BorException : Exception
+{
+    public BorException(string? message) : base(message) { }
+}
+
 /// <summary>
 /// A class representing the bor data structure
 /// The bor can store Latin alphabet characters, numbers
@@ -26,10 +31,18 @@ public class Bor
         public int numberOfLinesContainingThePrefix { get; set; }
     }
 
-    private Node root = new Node();
+    private Node root = new();
 
     // Bor size
     private int size;
+
+    static void ValidCharacter(char symbol)
+    {
+        if (symbol > 'z')
+        {
+            throw new Exception("The bor can store Latin alphabet characters, numbers"); ;
+        }
+    }
 
     /// <summary>
     /// Function for adding a string
@@ -38,44 +51,31 @@ public class Bor
     /// <returns> Was there an element string before calling Add </returns>
     public bool Add(string element)
     {
+        if (Contains(element))
+        {
+            return false;
+        }
         Node? node = root;
-        int counter = 0;
         for(int i = 0; i < element.Length; i++)
         {
-            if(element[i] > 'z')
+            try
             {
-                throw new Exception("The bor can store Latin alphabet characters, numbers"); ;
+                ValidCharacter(element[i]);
+            }
+            catch(BorException exception)
+            {
+                Console.WriteLine($"Ошибка: {exception.Message}");
             }
             if (node != null && node.next[element[i]] == null)
             {
                 node.next[element[i]] = new Node();
                 size++;
             }
-            else
-            {
-                counter++;
-            }
             if (node != null)
             {
+                node.numberOfLinesContainingThePrefix++;
                 node = node.next[element[i]];
-                if(node != null)
-                {
-                    node.numberOfLinesContainingThePrefix++;
-                }
             }
-        }
-        if (counter == element.Length && node != null && node.isTerminal)
-        {
-            Node? newNode = root;
-            for (int i = 0; i < element.Length; i++)
-            {
-                newNode = newNode?.next[element[i]];
-                if(newNode != null)
-                {
-                    newNode.numberOfLinesContainingThePrefix--;
-                }
-            }
-            return false;
         }
         if (node != null)
         {
@@ -131,34 +131,27 @@ public class Bor
     /// <returns> as there an element string before calling Remove </returns>
     public bool Remove(string element)
     {
-        if(!this.Contains(element))
+        if (!Contains(element))
         {
             return false;
         }
         Node? node = root;
-        Node? nodeWithMaxPrefix = root;
         for (int i = 0; i < element.Length; i++)
         {
-            node = node?.next[element[i]];
-            if(node != null)
+            if (node != null)
             {
                 node.numberOfLinesContainingThePrefix--;
             }
-            if (i == element.Length - 1)
+            if (i == element.Length - 1 && node != null)
             {
-                nodeWithMaxPrefix.isTerminal = false;
+                node.isTerminal = false;
             }
-        }
-        node = root;
-        for (int i = 0; i < element.Length; i++)
-        {
-            nodeWithMaxPrefix = node;
+            Node? copyNode = node;
             node = node?.next[element[i]];
-            if (nodeWithMaxPrefix?.next[element[i]]?.numberOfLinesContainingThePrefix == 0)
+            if (copyNode?.next[element[i]]?.numberOfLinesContainingThePrefix == 0)
             {
-                nodeWithMaxPrefix.next[element[i]] = null;
+                copyNode.next[element[i]] = null;
             }
-
         }
         return true;
     }

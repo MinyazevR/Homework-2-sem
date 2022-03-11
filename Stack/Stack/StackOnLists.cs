@@ -14,7 +14,7 @@ public class StackException : Exception
 /// <summary>
 /// A class representing the stack on lists
 /// </summary>
-public class StackOnLists<T>
+public class StackOnLists<T> : IStack<T>
 {
     private class StackElement
     {
@@ -35,7 +35,7 @@ public class StackOnLists<T>
     /// Function for checking the stack for emptiness
     /// </summary>
     /// <returns> True - if the stack is empty </returns>
-    public bool IsEmpty()
+    public override bool IsEmpty()
     {
         return numberOfElements == 0;
     }
@@ -44,7 +44,7 @@ public class StackOnLists<T>
     /// Function for adding an element to the stack
     /// </summary>
     /// <param name="value"> The value to add</param>
-    public void Push(T value)
+    public override void Push(T value)
     {
         numberOfElements++;
         head = new StackElement(value, head);
@@ -54,18 +54,19 @@ public class StackOnLists<T>
     /// Function for removing an element from the stack
     /// </summary>
     /// <returns> Remote value</returns>
-    public T? Pop()
+    public override T? Pop()
     {
         try
         {
             if (head == null)
             {
-                throw new NullReferenceException("Stack is empty");
+                throw new StackException("Stack is empty");
             }
         }
         catch (StackException ex)
         {
             Console.WriteLine($"Ошибка: {ex.Message}");
+            throw;
         }
         if (head != null)
         {
@@ -81,7 +82,7 @@ public class StackOnLists<T>
     /// Function that returns the number of elements in the stack
     /// </summary>
     /// <returns>Number of elements in stack</returns>
-    public int ReturnNumberOfElements()
+    public override int ReturnNumberOfElements()
     {
         return numberOfElements;
     }
@@ -90,18 +91,19 @@ public class StackOnLists<T>
     /// Function that returns the top of the stack
     /// </summary>
     /// <returns>Top of the stack</returns>
-    public T? ReturnTopOfTheStack()
+    public override T? ReturnTopOfTheStack()
     {
         try
         {
             if (head == null)
             {
-                throw new NullReferenceException("Stack is empty");
+                throw new StackException("Stack is empty");
             }
         }
         catch (StackException ex)
         {
             Console.WriteLine($"Ошибка: {ex.Message}");
+            throw;
         }
         if (head != null)
         {
@@ -113,7 +115,7 @@ public class StackOnLists<T>
     /// <summary>
     /// Function for stack printing
     /// </summary>
-    public void PrintStack()
+    public override void PrintStack()
     {
         if (head == null)
         {
@@ -129,13 +131,5 @@ public class StackOnLists<T>
         {
             Console.Write($"{copyHead.publicValue} ");
         }
-    }
-}
-
-public class Solution
-{
-    static void Main()
-    {
-        return;
     }
 }

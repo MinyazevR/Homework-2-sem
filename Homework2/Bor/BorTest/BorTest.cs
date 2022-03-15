@@ -87,17 +87,5 @@ namespace BorTest
             Assert.IsTrue(bor?.Add("hey"));
             Assert.AreEqual(bor?.Size(), 6);
         }
-
-        [Test]
-        public void FindStringFromInvalidSymbol()
-        {
-            Assert.Throws<MyException>(() => bor?.Contains("ÿÿÿÿ"));
-        }
-
-        [Test]
-        public void RemoveNonExistentString()
-        {
-            Assert.Throws<MyException>(() => bor?.Remove("ÿÿÿÿ"));
-        }
     }
 }

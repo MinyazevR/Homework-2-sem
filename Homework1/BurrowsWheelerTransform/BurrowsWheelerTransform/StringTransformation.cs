@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BurrowsWheelerTransform;
 
@@ -20,7 +21,7 @@ public class StringTransformation
             stringToConvert = symbol + stringToConvert;
         }
         Array.Sort(arrayOfString);
-        for(int i  = 0; i < stringToConvert.Length; i++)
+        for (int i = 0; i < stringToConvert.Length; i++)
         {
             convertedString += arrayOfString[i][stringToConvert.Length - 1];
         }
@@ -34,32 +35,56 @@ public class StringTransformation
     {
         if (stringToConvert == "")
         {
-           return stringToConvert;
+            return stringToConvert;
         }
-        var newArray = stringToConvert.ToCharArray();
-        Array.Sort(newArray);
-        var newString = new string[stringToConvert.Length];
-        for (int i = 0; i < newString.Length; i++)
+        Dictionary<int, int> storeTheNumberOfCharactersEqualGivenAndStandingHigher = new Dictionary<int, int>();
+        Dictionary<char, int> storeTheNumberOfCharactersSmallerGiven = new Dictionary<char, int>();
+        for (int i = 0; i < stringToConvert.Length; i++)
         {
-            newString[i] += newArray[i];
-        }
-        for (int i = 1; i < stringToConvert.Length; i++)
-        {
-            Array.Sort(newString);
-            for (int j = 0; j < stringToConvert.Length; j++)
+            int counter = 0;
+            if (!storeTheNumberOfCharactersSmallerGiven.ContainsKey(stringToConvert[i]))
             {
-                newString[j] = stringToConvert[j] + newString[j];
+                storeTheNumberOfCharactersSmallerGiven.Add(stringToConvert[i], 0);
+            }
+            else
+            {
+                storeTheNumberOfCharactersSmallerGiven.Remove(stringToConvert[i], out counter);
+                counter++;
+                storeTheNumberOfCharactersSmallerGiven.Add(stringToConvert[i], counter);
+            }
+            storeTheNumberOfCharactersEqualGivenAndStandingHigher.Add(i, counter);
+        }
+        var sortStringToConvert = stringToConvert.ToCharArray();
+        Array.Sort(sortStringToConvert);
+        storeTheNumberOfCharactersSmallerGiven.Clear();
+        storeTheNumberOfCharactersSmallerGiven.Add(sortStringToConvert[0], 0);
+        for (int i = 0; i < sortStringToConvert.Length - 1; i++)
+        {
+            if (sortStringToConvert[i] != sortStringToConvert[i + 1])
+            {
+                storeTheNumberOfCharactersSmallerGiven.Add(sortStringToConvert[i + 1], i + 1);
             }
         }
-        Array.Sort(newString);
-        return newString[index];
+        char[] answer = new char[stringToConvert.Length];
+        answer[answer.Length - 1] = stringToConvert[index];
+        for (int i = answer.Length - 1; i > 0; i--)
+        {
+            int number = 0;
+            storeTheNumberOfCharactersEqualGivenAndStandingHigher.TryGetValue(index, out number);
+            int secondNumber;
+            storeTheNumberOfCharactersSmallerGiven.TryGetValue(stringToConvert[index], out secondNumber);
+            index = number + secondNumber;
+            answer[i - 1] = stringToConvert[index];
+        }
+        return new String(answer);
     }
-    static void Main(string[] args)
+    public class solutoin
     {
-        Console.WriteLine("please enter the line");
-        var inputString = Console.ReadLine();
-        var (newString, number) = DirectBurrowsWheelerTransformation(inputString);
-        Console.WriteLine($"Direct conversion and index line in a table : {newString} , {number}") ;
-        Console.WriteLine($"Inverse conversion : {InverseBurrowsWheelerTransformation(newString, number)}");
+        static void Main(string[] args)
+        {
+            var (newString, index) = DirectBurrowsWheelerTransformation("ABACABdvdvA effewfewf AWfewfewe SGgdsggdgergeg");
+            string newnewstring = InverseBurrowsWheelerTransformation(newString, index);
+            Console.WriteLine(newnewstring);
+        }
     }
 }

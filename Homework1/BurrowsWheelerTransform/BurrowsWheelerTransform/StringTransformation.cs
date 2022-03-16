@@ -82,9 +82,6 @@ public class StringTransformation
     {
         static void Main(string[] args)
         {
-            var (newString, index) = DirectBurrowsWheelerTransformation("ABACABdvdvA effewfewf AWfewfewe SGgdsggdgergeg");
-            string newnewstring = InverseBurrowsWheelerTransformation(newString, index);
-            Console.WriteLine(newnewstring);
         }
     }
 }

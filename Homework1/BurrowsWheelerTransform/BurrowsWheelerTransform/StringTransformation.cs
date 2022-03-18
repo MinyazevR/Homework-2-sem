@@ -33,10 +33,6 @@ public class StringTransformation
         return (convertedString, Array.IndexOf(arrayOfString, stringToConvert));
     }
 
-    // Function for inverse Burrows - Wheeler transormation
-    // Input arguments are the transformed string and the index of the string in the array
-    // The function returns the string in its original form
-
     /// <summary>
     /// Function for inverse Burrows - Wheeler transormation
     /// </summary>

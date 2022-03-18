@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Build
-      run: For (/R %&I in (*.sln) do (dotnet test %%I))
+      run: For (/R %&I in (*.sln) do dotnet test %%I)
     - name: Test
       run: For /R %%I in (*.sln) do dotnet test %%I
 

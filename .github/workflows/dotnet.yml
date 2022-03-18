@@ -14,7 +14,7 @@ jobs:
       with:
         dotnet-version: '6.x'
     - name: Build
-      run: test.bat
+      run: Homework-2-sem\test.bat
     - name: Test
       run: For /R %%I in (*.sln) do dotnet test %%I
 

@@ -14,8 +14,8 @@ jobs:
       with:
         dotnet-version: '6.x'
     - name: Build
-      run: cmd For /R %%I in (*.sln) do dotnet build %%I
+      run: $slnList = Get-ChildItem $foo.FullName -Recurse -Filter '*.sln'; foreach ($file in $slnList) {dotnet build $file.FullName}
     - name: Test
-      run: cmd For /R %%I in (*.sln) do dotnet test %%I
+      run: $slnList = Get-ChildItem $foo.FullName -Recurse -Filter '*.sln'; foreach ($file in $slnList) {dotnet test $file.FullName}
 
 

@@ -18,14 +18,14 @@ public class StackOnLists<T> : IStack<T>
 {
     private class StackElement
     {
-        private StackElement? Next { get; set; }
+        private StackElement? next { get; set; }
         private T? value;
-        public T? publicValue { get => value; set { } }
-        public StackElement? publicNext { get => Next; set { } }
+        public T? Value { get => value; set { } }
+        public StackElement? Next { get => next; set { } }
         public StackElement(T value, StackElement? next)
         {
             this.value = value;
-            this.Next = next;
+            this.next = next;
         }
     }
     private StackElement? head;
@@ -70,8 +70,8 @@ public class StackOnLists<T> : IStack<T>
         }
         if (head != null)
         {
-            T? value = head.publicValue;
-            head = head.publicNext;
+            T? value = head.Value;
+            head = head.Next;
             numberOfElements--;
             return value;
         }
@@ -107,7 +107,7 @@ public class StackOnLists<T> : IStack<T>
         }
         if (head != null)
         {
-            return head.publicValue;
+            return head.Value;
         }
          return default(T);
     }
@@ -122,14 +122,14 @@ public class StackOnLists<T> : IStack<T>
             return;
         }
         StackElement copyHead = head;
-        while (copyHead != null && copyHead.publicNext != null)
+        while (copyHead != null && copyHead.Next != null)
         {
-            Console.Write($"{copyHead.publicValue} ");
-            copyHead = copyHead.publicNext;
+            Console.Write($"{copyHead.Value} ");
+            copyHead = copyHead.Next;
         }
-        if (copyHead != null && copyHead.publicValue != null)
+        if (copyHead != null && copyHead.Value != null)
         {
-            Console.Write($"{copyHead.publicValue} ");
+            Console.Write($"{copyHead.Value} ");
         }
     }
 }

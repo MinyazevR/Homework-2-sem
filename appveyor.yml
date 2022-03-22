@@ -4,7 +4,7 @@ init:
     - git config --global core.autocrlf false
 
 before_build:
-    - For /R %%I in (*.sln) do nuget restore %%I
+    - For /R %%I in (*.sln) do dotnet restore %%I
 
 build_script:
     - For /R %%I in (*.sln) do dotnet build %%I

@@ -5,8 +5,8 @@ namespace Tree;
 /// <summary>
 /// Parse Tree Interface
 /// </summary>
-public interface IParsingTree
-{
+    public interface IParsingTree
+    {
     /// <summary>
     /// Function for deleting a tree
     /// </summary>

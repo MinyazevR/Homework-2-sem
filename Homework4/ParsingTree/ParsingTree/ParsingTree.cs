@@ -168,7 +168,8 @@ public class ParsingTree : IParsingTree
             nodeValue += expression[newIndex];
             newIndex++;
         }
-        Node newNode = expression[index] == '-' ? InitializeNode("-" + nodeValue) : InitializeNode(nodeValue);
+        Node newNode =
+        expression[index] == '-' ? InitializeNode("-" + nodeValue) : InitializeNode(nodeValue);
         index = newIndex;
         return newNode;
     }

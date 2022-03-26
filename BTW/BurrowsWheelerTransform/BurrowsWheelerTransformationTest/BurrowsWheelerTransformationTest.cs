@@ -15,6 +15,13 @@ public class Tests
     }
 
     [Test]
+    public void BurrowsWheelerTransformationForOneCharacterString()
+    {
+        var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation("a");
+        Assert.AreEqual(newString, "a");
+    }
+
+    [Test]
     public void BurrowsWheelerTransformationForFileString()
     {
         string stringToConvert = File.ReadAllText("..//..//..//test.txt");

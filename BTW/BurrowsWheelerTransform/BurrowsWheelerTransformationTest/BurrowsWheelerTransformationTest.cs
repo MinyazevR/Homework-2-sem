@@ -12,6 +12,7 @@ public class Tests
     {
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation("");
         Assert.AreEqual(newString, "");
+        Assert.AreEqual("", StringTransformation.InverseBurrowsWheelerTransformation(newString, index));
     }
 
     [Test]
@@ -19,7 +20,9 @@ public class Tests
     {
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation("a");
         Assert.AreEqual(newString, "a");
+        Assert.AreEqual("a", StringTransformation.InverseBurrowsWheelerTransformation(newString, index));
     }
+
 
     [Test]
     public void BurrowsWheelerTransformationForFileString()

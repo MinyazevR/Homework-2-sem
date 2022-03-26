@@ -74,7 +74,7 @@ public class StringTransformation
         var sortStringToConvert = stringToConvert.ToCharArray();
         Array.Sort(sortStringToConvert);
         storeTheNumberOfCharactersSmallerGiven.Clear();
-        // Для первого символа количество меньших = 1, т.к. он первый в отсортированном массиве
+        // Для первого символа количество меньших = 0, т.к. он первый в отсортированном массиве
         storeTheNumberOfCharactersSmallerGiven.Add(sortStringToConvert[0], 0);
         for (int i = 0; i < sortStringToConvert.Length - 1; i++)
         {
@@ -83,10 +83,10 @@ public class StringTransformation
                 storeTheNumberOfCharactersSmallerGiven.Add(sortStringToConvert[i + 1], i + 1);
             }
         }
-        // Предпоследний символ строки стоит в трансформированной строке на той же позиции что и строка начинающаяся с последнего символа в таблице сдвигов
-        // Строка n 1 2 3 ... n - 1 находится на позиции = k + l, где k - количество символов равных n, но стоящих раньше в трансформированной строке,
-        // т.к. префикс этих строк меньше и в отсортированной таблице они будут стоять раньше. l - количество символов, меньших n - 1
-        // Нашли n - 2, найдем n - 3 ...
+        // Предпоследний символ строки стоит во входной строке на той же позиции что и строка начинающаяся с последнего символа входной строки в таблице сдвигов
+        // Строка n  в таблице 1 2 3 ... n - находится на позиции = k + l, где k - количество символов равных n, но стоящих раньше во входной строке,
+        // т.к. префикс этих строк меньше и в отсортированной таблице они будут стоять раньше. l - количество символов, меньших n. Знаем n[length - 1]
+        // Нашли n[length - 2], найдем n[length - 3] ...
         char[] answer = new char[stringToConvert.Length];
         answer[answer.Length - 1] = stringToConvert[index];
         for (int i = answer.Length - 1; i > 0; i--)

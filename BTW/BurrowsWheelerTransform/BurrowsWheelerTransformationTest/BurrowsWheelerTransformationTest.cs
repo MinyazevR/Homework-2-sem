@@ -3,22 +3,19 @@ using BurrowsWheelerTransform;
 
 using System.IO;
 namespace BurrowsWheelerTransformationTest;
+
 public class Tests
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
 
     [Test]
-    public void DirectBurrowsWheelerTransformationForEmptyString()
+    public void BurrowsWheelerTransformationForEmptyString()
     {
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation("");
         Assert.AreEqual(newString, "");
     }
 
     [Test]
-    public void DirectBurrowsWheelerTransformationForFileString()
+    public void BurrowsWheelerTransformationForFileString()
     {
         string stringToConvert = File.ReadAllText("..//..//..//test.txt");
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation(stringToConvert);
@@ -26,7 +23,7 @@ public class Tests
     }
 
     [Test]
-    public void DirectBurrowsWheelerTransformationForFileStringForEqualSymbol()
+    public void BurrowsWheelerTransformationForFileStringForEqualSymbol()
     {
         string stringToConvert = File.ReadAllText("..//..//..//test1.txt");
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation(stringToConvert);

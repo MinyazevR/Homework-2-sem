@@ -36,6 +36,11 @@ abstract public class IStack<T>
     /// Function for stack printing
     /// </summary>
     abstract public void PrintStack();
+
+    /// <summary>
+    /// Function for removing the stack
+    /// </summary>
+    abstract public void DeleteStack();
 }
 
 

@@ -21,7 +21,6 @@ public class StackTest
     public void RemoveElementFromEmptyStack(IStack<int> stack)
     {
         var exception = Assert.Throws<StackException>(() => stack?.Pop());
-        Assert.That(exception?.Message, Is.EqualTo("Stack is empty"));
     }
 
     [TestCaseSource(nameof(Stacks))]
@@ -32,34 +31,33 @@ public class StackTest
     }
 
     [TestCaseSource(nameof(Stacks))]
-    public void ReturnTopOfEmptyStack(IStack<int> stack)
+    public void CheckTopOfEmptyStack(IStack<int> stack)
     {
         var exception = Assert.Throws<StackException>(() => stack?.ReturnTopOfTheStack());
-        Assert.That(exception?.Message, Is.EqualTo("Stack is empty"));
     }
 
     [TestCaseSource(nameof(Stacks))]
-    public void PushAfterPush(IStack<int> stack)
+    public void CheckTopOfTheStackAfterPush(IStack<int> stack)
     {
         stack?.Push(1);
         Assert.AreEqual(stack?.ReturnTopOfTheStack(), 1);
     }
 
     [TestCaseSource(nameof(Stacks))]
-    public void ReturnNumberOfElementForEmptyStack(IStack<int> stack)
+    public void CheckNumberOfElementForEmptyStack(IStack<int> stack)
     {
         Assert.AreEqual(stack?.ReturnNumberOfElements(), 0);
     }
 
     [TestCaseSource(nameof(Stacks))]
-    public void ReturnNumberOfElementAfterPush(IStack<int> stack)
+    public void CheckNumberOfElementAfterPush(IStack<int> stack)
     {
         stack?.Push(1);
         Assert.AreEqual(stack?.ReturnNumberOfElements(), 1);
     }
 
     [TestCaseSource(nameof(Stacks))]
-    public void ReturnNumberOfElementAfterPushAfterPop(IStack<int> stack)
+    public void CheckNumberOfElementsAfterPushAfterPop(IStack<int> stack)
     {
         stack?.Push(1);
         Assert.AreEqual(stack?.ReturnNumberOfElements(), 1);
@@ -68,7 +66,7 @@ public class StackTest
     }
 
     [TestCaseSource(nameof(Stacks))]
-    public void ReturnNumberOfElementAfterPushPush(IStack<int> stack)
+    public void CheckNumberOfElementAfterPushPush(IStack<int> stack)
     {
         stack?.Push(1);
         Assert.AreEqual(stack?.ReturnNumberOfElements(), 1);
@@ -77,12 +75,29 @@ public class StackTest
     }
 
     [TestCaseSource(nameof(Stacks))]
-    public void ReturnTopOfTheStackAfterPushPushPop(IStack<int> stack)
+    public void CheckTopOfTheStackAfterPushPushPop(IStack<int> stack)
     {
         stack?.Push(1);
         Assert.AreEqual(stack?.ReturnNumberOfElements(), 1);
         stack?.Push(2);
         stack?.Pop();
         Assert.AreEqual(stack?.ReturnNumberOfElements(), 1);
+    }
+
+    [TestCaseSource(nameof(Stacks))]
+    public void CheckTopOfTheStackAfterPushPush(IStack<int> stack)
+    {
+        stack?.Push(1);
+        stack?.Push(2);
+        Assert.AreEqual(stack?.ReturnTopOfTheStack(), 2);
+    }
+
+    [TestCaseSource(nameof(Stacks))]
+    public void CheckPopAfterPrint(IStack<int> stack)
+    {
+        stack?.Push(1);
+        stack?.Push(2);
+        stack?.PrintStack();
+        Assert.AreEqual(stack?.ReturnTopOfTheStack(), 2);
     }
 }

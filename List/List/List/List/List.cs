@@ -55,12 +55,12 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// <returns>was the item in the list</returns>
     public virtual bool Remove(int index)
     {
-        if (index > size || index <= 0)
+        if (index >= size || index < 0)
         {
             return false;
         }
         size--;
-        if (index == 1)
+        if (index == 0)
         {
             head = head?.Next;
             return true;
@@ -68,7 +68,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
         ListElement? element = new ListElement();
         ListElement? copyElement = new ListElement();
         element = head;
-        for ( int i = 1; i < index; i++)
+        for (int i = 0; i < index - 1; i++)
         {
             if (i == index - 1)
             {
@@ -91,13 +91,13 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// <param name="value">New value</param>
     public bool ChangeElement(int index, T value)
     {
-        if (index > size || index <= 0)
+        if (index >= size || index < 0)
         {
             return false;
         }
         ListElement? element = new ListElement();
         element = head;
-        for (int i = 1; i < index; i++)
+        for (int i = 0; i < index - 1; i++)
         {
             element = element?.Next;
         }

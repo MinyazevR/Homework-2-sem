@@ -39,7 +39,7 @@ public class Tests
         list?.Add(2);
         list?.Add(0);
         list?.Add(-12);
-        Assert.Throws<RemoveNonExistenElementException>(() => list?.Remove(5));
+        Assert.Throws<RemoveNonExistenElementException>(() => list?.Remove(4));
     }
 
     [Test]
@@ -66,7 +66,7 @@ public class Tests
     public void RemoveElementNotMustContain()
     {
         list?.Add(2);
-        list?.Remove(1);
+        list?.Remove(0);
         Assert.AreEqual(false, list?.Contains(2));
     }
 
@@ -80,7 +80,7 @@ public class Tests
     public void ContainsChangeElement()
     {
         list?.Add(125);
-        list?.ChangeElement(1, 12);
+        list?.ChangeElement(0, 12);
         Assert.AreEqual(true, list?.Contains(12));
         Assert.AreEqual(false, list?.Contains(125));
     }

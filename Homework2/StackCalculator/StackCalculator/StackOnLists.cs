@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Stack;
 
-namespace Stack;
-
-/// <summary>
-/// A class for creating custom exceptions
-/// </summary>
-public class StackException : Exception
-{
-    public StackException(string? message) : base(message) { }
-}
+using System;
 
 /// <summary>
 /// A class representing the stack on lists
@@ -18,10 +9,8 @@ public class StackOnLists<T> : IStack<T>
 {
     private class StackElement
     {
-        private StackElement? next { get; set; }
-        private T? value;
-        public T? Value { get => value; set { this.value = value; } }
-        public StackElement? Next { get => next; set { next = value; } }
+        public StackElement? Next { get; set; }
+        public T? Value { get; set; }
     }
 
     private StackElement? head;
@@ -31,16 +20,16 @@ public class StackOnLists<T> : IStack<T>
     /// Function for checking the stack for emptiness
     /// </summary>
     /// <returns> True - if the stack is empty </returns>
-    public override bool IsEmpty() => numberOfElements == 0;
+    public bool IsEmpty() => numberOfElements == 0;
 
     /// <summary>
     /// Function for adding an element to the stack
     /// </summary>
     /// <param name="value"> The value to add</param>
-    public override void Push(T value)
+    public void Push(T value)
     {
         numberOfElements++;
-        StackElement newHead = new StackElement();
+        StackElement newHead = new();
         newHead.Value = value;
         newHead.Next = head;
         head = newHead;
@@ -50,7 +39,7 @@ public class StackOnLists<T> : IStack<T>
     /// Function for removing an element from the stack
     /// </summary>
     /// <returns> Remote value</returns>
-    public override T? Pop()
+    public T? Pop()
     {
         if (head == null)
         {
@@ -63,32 +52,32 @@ public class StackOnLists<T> : IStack<T>
             numberOfElements--;
             return value;
         }
-        return default(T);
+        return default;
     }
 
     /// <summary>
     /// Function that returns the number of elements in the stack
     /// </summary>
     /// <returns>Number of elements in stack</returns>
-    public override int ReturnNumberOfElements() => numberOfElements;
+    public int NumberOfElements() => numberOfElements;
 
     /// <summary>
     /// Function that returns the top of the stack
     /// </summary>
     /// <returns>Top of the stack</returns>
-    public override T? ReturnTopOfTheStack()
+    public T? TopOfTheStack()
     {
         if (head == null)
         {
             throw new StackException("Stack is empty");
         }
-        return head == null ? default(T) : head.Value;
+        return head == null ? default : head.Value;
     }
 
     /// <summary>
     /// Function for stack printing
     /// </summary>
-    public override void PrintStack()
+    public void PrintStack()
     {
         if (head == null)
         {
@@ -105,5 +94,5 @@ public class StackOnLists<T> : IStack<T>
     /// <summary>
     /// Function for removing the stack
     /// </summary>
-    public override void DeleteStack() => head = null;
+    public void ClearStack() => head = null;
 }

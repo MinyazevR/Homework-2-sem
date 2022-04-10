@@ -1,125 +1,81 @@
-﻿using System;
-using Stack;
+﻿namespace StackCalculator;
 
-namespace StackCalculator;
+using Stack;
 
 /// <summary>
 /// A class representing a stack calculator
 /// </summary>
 public class Calculator
 {
-    private IStack<float> Stack = new StackOnLists<float>();
-
     /// <summary>
     /// Function for counting expressions in postfix form
     /// </summary>
     /// <returns>Expression value</returns>
-    public float CountTheExpressionInPostfixForm(string[] inputString)
+    public float CountTheExpressionInPostfixForm(string[] inputString, IStack<float> stack)
     {
-        int number = 0;
         for (int i = 0; i < inputString.Length; i++)
         {
             if (inputString[i] == "")
             {
                 continue;
             }
+            int number = 0;
             if (int.TryParse(inputString[i], out number))
             {
-                Stack.Push(number);
+                stack.Push(number);
                 continue;
             }
-            try
+            if (stack.NumberOfElements() < 2)
             {
-                if (Stack.ReturnNumberOfElements() < 2)
-                {
-                    throw new IncorrectExpressionException("Incorrect expression");
-                }
-            }
-            catch (IncorrectExpressionException exception)
-            {
-                Console.WriteLine($"Ошибка: {exception.Message}");
-                throw;
+                throw new IncorrectExpressionException("");
             }
             float secondNumber = 0;
             float firstNumber = 0;
             try
             {
-                secondNumber = Stack.Pop();
-                firstNumber = Stack.Pop();
+                secondNumber = stack.Pop();
+                firstNumber = stack.Pop();
             }
             catch (StackException)
             {
-                Console.WriteLine("Incorrect expression");
                 throw;
             }
             if (inputString[i] == "+")
             {
-                Stack.Push(firstNumber +  secondNumber);
+                stack.Push(firstNumber +  secondNumber);
                 continue;
             }
             if (inputString[i] == "-")
             {
-                Stack.Push(firstNumber - secondNumber);
+                stack.Push(firstNumber - secondNumber);
                 continue;
             }
             if (inputString[i] == "*")
             {
-                Stack.Push(firstNumber * secondNumber);
+                stack.Push(firstNumber * secondNumber);
                 continue;
             }
             if (inputString[i] == "/")
             {
-                try
+                if (Math.Abs(secondNumber - 0) < 0.0000000000000000000000000001)
                 {
-                    if (secondNumber.CompareTo(0) == 0)
-                    {
-                        throw new DivideByZeroException("division by 0");
-                    }
+                    throw new DivideByZeroException("");
                 }
-                catch (DivideByZeroException exception)
-                {
-                    Console.WriteLine($"Ошибка: {exception.Message}");
-                    throw;
-                }
-                Stack.Push(firstNumber / secondNumber);
+                stack.Push(firstNumber / secondNumber);
             }
             else
             {
-                try
-                {
-                    throw new InvalidCharacterException("Invalid character");
-                }
-                catch(InvalidCharacterException exception)
-                {
-                    Console.WriteLine($"Ошибка: {exception.Message}");
-                    throw;
-                }
+                throw new InvalidCharacterException("");
             }
         }
-        try
+        if (stack.NumberOfElements() > 1)
         {
-            if (Stack.ReturnNumberOfElements() > 1)
-            {
-                throw new IncorrectExpressionException("Incorrect expression");
-            }
+            throw new IncorrectExpressionException("");
         }
-        catch (IncorrectExpressionException exception)
+        if (stack.NumberOfElements() < 1)
         {
-            Console.WriteLine($"Ошибка: {exception.Message}");
-            throw;
+            throw new IncorrectExpressionException("");
         }
-        try
-        {
-            if (Stack.ReturnNumberOfElements() < 1)
-            {
-                throw new IncorrectExpressionException("Empty string");
-            }
-        }
-        catch (IncorrectExpressionException exception)
-        {
-            Console.WriteLine($"Ошибка: {exception.Message}");
-            throw;
-        }
-        return Stack.Pop();
+        return stack.Pop();
     }
 }

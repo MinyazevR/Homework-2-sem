@@ -40,39 +40,39 @@ public class Calculator
             {
                 throw;
             }
-            if (inputString[i] == "+")
+            switch (inputString[i])
             {
-                stack.Push(firstNumber +  secondNumber);
-                continue;
-            }
-            if (inputString[i] == "-")
-            {
-                stack.Push(firstNumber - secondNumber);
-                continue;
-            }
-            if (inputString[i] == "*")
-            {
-                stack.Push(firstNumber * secondNumber);
-                continue;
-            }
-            if (inputString[i] == "/")
-            {
-                if (Math.Abs(secondNumber - 0) < 0.0000000000000000000000000001)
+                case "+" :
                 {
-                    throw new DivideByZeroException("");
+                    stack.Push(firstNumber + secondNumber);
+                    break;
                 }
-                stack.Push(firstNumber / secondNumber);
-            }
-            else
-            {
-                throw new InvalidCharacterException("");
+                case "-" :
+                {
+                     stack.Push(firstNumber - secondNumber);
+                     break;
+                }
+                case "*" :
+                {
+                     stack.Push(firstNumber * secondNumber);
+                     break;
+                }
+                case "/" :
+                {
+                    if (Math.Abs(secondNumber - 0) < 0.0000000000000000000000000001)
+                    {
+                        throw new DivideByZeroException("");
+                    }
+                    stack.Push(firstNumber / secondNumber);
+                    break;
+                }
+                default :
+                {
+                    throw new InvalidCharacterException("");
+                }
             }
         }
-        if (stack.NumberOfElements() > 1)
-        {
-            throw new IncorrectExpressionException("");
-        }
-        if (stack.NumberOfElements() < 1)
+        if (stack.NumberOfElements() != 1)
         {
             throw new IncorrectExpressionException("");
         }

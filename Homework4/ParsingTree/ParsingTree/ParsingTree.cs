@@ -1,147 +1,146 @@
-﻿using System;
+﻿namespace Tree;
 
-namespace Tree;
+using System;
 
 /// <summary>
 /// Class representing the parse tree
 /// </summary>
-public class ParsingTree : IParsingTree
+public class ParsingTree
 {
     /// <summary>
     /// Class for storing tree nodes
     /// </summary>
-    public class Node
+    private interface INode
     {
-        private Node? leftSon;
-        private Node? rightSon;
-        private string? stringValue;
-        public Node? LeftSon { get => leftSon; set { leftSon = value; } }
-        public Node? RightSon { get => rightSon; set { rightSon = value; } }
-        public string? Value { get => stringValue; set { stringValue = value; } }
+        public float Count();
+        public void Print();
 
-    }
-
-    private Node? treeRoot;
-
-    /// <summary>
-    /// Function for deleting a tree
-    /// </summary>
-    public void DeleteTree()
-    {
-        DeleteTreeRecursive(treeRoot);
-    }
-
-    private void DeleteTreeRecursive(Node? root)
-    {
-        if (root == null)
+        public class Operand : INode
         {
-            return;
-        }
-        DeleteTreeRecursive(root.LeftSon);
-        DeleteTreeRecursive(root.RightSon);
-        root = null;
-    }
-
-    /// <summary>
-    /// Function for traversing the tree
-    /// </summary>
-    public float TreeTraversal()
-    {
-        return RecursiveTreeTraversal(treeRoot);
-    }
-
-    private float RecursiveTreeTraversal(Node? root)
-    {
-        if (root == null || root.Value == null)
-        {
-            return 0;
-        }
-        if (root.LeftSon != null)
-        {
-            RecursiveTreeTraversal(root.LeftSon);
-        }
-        if (root.RightSon != null)
-        {
-            RecursiveTreeTraversal(root.RightSon);
-        }
-        if (root.RightSon != null && root.LeftSon != null && root.LeftSon.Value != null && root.RightSon.Value != null)
-        {
-            if (root.Value == "+")
+            public string Value;
+            public Operand(string element)
             {
-                root.Value = (float.Parse(root.LeftSon.Value) + float.Parse(root.RightSon.Value)).ToString();
+                Value = element;
             }
-            if (root.Value == "-")
+            public float Count()
             {
-                root.Value = (float.Parse(root.LeftSon.Value) - float.Parse(root.RightSon.Value)).ToString();
+                return float.Parse(Value);
             }
-            if (root.Value == "*")
+            public void Print()
             {
-                root.Value = (float.Parse(root.LeftSon.Value) * float.Parse(root.RightSon.Value)).ToString();
+                Console.Write(Value);
+                Console.Write(" ");
             }
-            if (root.Value == "/")
+        }
+
+        public abstract class Operator : INode
+        {
+            public INode? LeftSon;
+            public INode? RightSon;
+            public abstract float Count();
+            public abstract void Print();
+
+            public void OperatorPrintTemplate(string symbol)
             {
-                try
+                Console.Write("(");
+                Console.Write(symbol);
+                LeftSon?.Print();
+                RightSon?.Print();
+                Console.Write(")");
+            }
+
+            public class Plus : Operator
+            {
+                public override float Count()
                 {
-                    if (float.Parse(root.RightSon.Value).CompareTo(0) == 0)
+                    if (LeftSon == null || RightSon == null)
                     {
-                        throw new DivideByZeroTreeException("division by 0");
+                        throw new NullReferenceException();
                     }
+                    return LeftSon.Count() + RightSon.Count();
                 }
-                catch (DivideByZeroTreeException exception)
+                public override void Print()
                 {
-                    Console.WriteLine($"Ошибка: {exception.Message}");
-                    throw;
+                    if (LeftSon == null || RightSon == null)
+                    {
+                        return;
+                    }
+                    OperatorPrintTemplate("+");
                 }
-                root.Value = (float.Parse(root.LeftSon.Value) / float.Parse(root.RightSon.Value)).ToString();
+            }
+
+            public class Minus : Operator
+            {
+                public override float Count()
+                {
+                    if (LeftSon == null || RightSon == null)
+                    {
+                        throw new NullReferenceException();
+                    }
+                    return LeftSon.Count() - RightSon.Count();
+                }
+                public override void Print()
+                {
+                    if (LeftSon == null || RightSon == null)
+                    {
+                        return;
+                    }
+                    OperatorPrintTemplate("-");
+                }
+            }
+
+            public class Divide : Operator
+            {
+                public override float Count()
+                {
+                    if (LeftSon == null || RightSon == null)
+                    {
+                        throw new NullReferenceException();
+                    }
+                    return LeftSon.Count() / RightSon.Count();
+                }
+                public override void Print()
+                {
+                    if (LeftSon == null || RightSon == null)
+                    {
+                        return;
+                    }
+                    OperatorPrintTemplate("/");
+                }
+            }
+
+            public class Multiply : Operator
+            {
+                public override float Count()
+                {
+                    if (LeftSon == null || RightSon == null)
+                    {
+                        throw new NullReferenceException();
+                    }
+                    return LeftSon.Count() * RightSon.Count();
+                }
+                public override void Print()
+                {
+                    if (LeftSon == null || RightSon == null)
+                    {
+                        return;
+                    }
+                    OperatorPrintTemplate("*");
+                }
             }
         }
-        return float.Parse(root.Value);
     }
 
-    /// <summary>
-    /// Function for printing a tree
-    /// </summary>
-    public string PrintTree()
-    {
-        string element = "";
-        PrintTreeRecursive(ref element, treeRoot);
-        return element;
-    }
+    INode? treeRoot;
 
-    private void PrintTreeRecursive(ref string element, Node? root)
-    {
-        if (root == null)
-        {
-            return;
-        }
-        if (root.Value != null && StringIsOperator(root.Value))
-        {
-            element += "(";
-            element += root.Value;
-            PrintTreeRecursive(ref element, root.LeftSon);
-            PrintTreeRecursive(ref element, root.RightSon);
-            element += ")";
-
-        }
-        else
-        {
-            element += root.Value;
-            element += " ";
-        }
-    }
-
-    /// <summary>
-    /// Function for building a tree
-    /// </summary>
-    /// <param name="expression">The expression on the basis of which the tree is built</param>
     public void BuildTree(string expression)
     {
         int index = 0;
-        Node? root = null;
+        INode? root = null;
         treeRoot = PrivateBuildTree(expression, ref index, root);
     }
 
-    private Node? PrivateBuildTree(string expression, ref int index, Node? node)
+    private INode? PrivateBuildTree(string expression, ref int index, INode? node)
     {
         if (index >= expression.Length)
         {
@@ -154,10 +153,7 @@ public class ParsingTree : IParsingTree
         if ((CharIsOperator(expression[index]) && index < expression.Length) || (index + 1 < expression.Length
         && !IsOperand(expression[index + 1]) && CharIsOperator(expression[index])))
         {
-            node = InitializeNode("" + expression[index]);
-            index++;
-            node.LeftSon = PrivateBuildTree(expression, ref index, node.LeftSon);
-            node.RightSon = PrivateBuildTree(expression, ref index, node.RightSon);
+            InitializeNode(expression, ref index, ref node);
             return node;
         }
         int newIndex = expression[index] == '-' ? index + 1 : index;
@@ -168,20 +164,84 @@ public class ParsingTree : IParsingTree
             nodeValue += expression[newIndex];
             newIndex++;
         }
-        Node newNode =
-        expression[index] == '-' ? InitializeNode("-" + nodeValue) : InitializeNode(nodeValue);
+        INode? newNode = null;
+        int x = nodeValue.Length - 1;
+        if (expression[index] == '-')
+        {
+            InitializeNode("-" + nodeValue, ref x, ref newNode);
+        }
+        else
+        {
+            InitializeNode(nodeValue, ref x, ref newNode);
+        }
         index = newIndex;
         return newNode;
     }
 
-    private Node InitializeNode(string element)
+    private void InitializeNode(string expression, ref int index, ref INode? node)
     {
-        Node newNode = new Node();
-        newNode.Value = element;
-        return newNode;
+        switch (expression[index])
+        {
+            case '+':
+            {
+                node = new INode.Operator.Plus();
+                index++;
+                ((INode.Operator.Plus)node).LeftSon = PrivateBuildTree(expression, ref index, ((INode.Operator.Plus)node).LeftSon);
+                ((INode.Operator.Plus)node).RightSon = PrivateBuildTree(expression, ref index, ((INode.Operator.Plus)node).RightSon);
+                return;
+            }
+            case '-':
+            {
+                node = new INode.Operator.Minus();
+                index++;
+                ((INode.Operator.Minus)node).LeftSon = PrivateBuildTree(expression, ref index, ((INode.Operator.Minus)node).LeftSon);
+                ((INode.Operator.Minus)node).RightSon = PrivateBuildTree(expression, ref index, ((INode.Operator.Minus)node).RightSon);
+                return;
+            }
+            case '*':
+            {
+                node = new INode.Operator.Multiply();
+                index++;
+                ((INode.Operator.Multiply)node).LeftSon = PrivateBuildTree(expression, ref index, ((INode.Operator.Multiply)node).LeftSon);
+                ((INode.Operator.Multiply)node).RightSon = PrivateBuildTree(expression, ref index, ((INode.Operator.Multiply)node).RightSon);
+                return;
+            }
+            case '/':
+            {
+                node = new INode.Operator.Divide();
+                index++;
+                ((INode.Operator.Divide)node).LeftSon = PrivateBuildTree(expression, ref index, ((INode.Operator.Divide)node).LeftSon);
+                ((INode.Operator.Divide)node).RightSon = PrivateBuildTree(expression, ref index, ((INode.Operator.Divide)node).RightSon);
+                return;
+            }
+            default:
+            {
+                node = new INode.Operand(expression);
+                index++;
+                return;
+            }
+        }
     }
 
+    public void Print() => treeRoot?.Print();
+    public float Count()
+    {
+        if (treeRoot == null)
+            throw new NullReferenceException();
+        return treeRoot.Count();
+        
+    }
     private bool CharIsOperator(char element) => element == '+' || element == '-' || element == '*' || element == '/';
-    private bool StringIsOperator(string element) => element == "+" || element == "-" || element == "*" || element == "/";
     private bool IsOperand(char element) => element <= '9' && element >= '0';
+}
+
+public class Solution
+{
+    public static void Main(string[] args)
+    {
+        ParsingTree tree = new ParsingTree();
+        tree.BuildTree("(* (+ 1 1) 2)");
+        tree.Print();
+        Console.Write(tree.Count());
+    }
 }

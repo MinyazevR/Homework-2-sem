@@ -5,5 +5,5 @@
 /// </summary>
 public class IncorrectExpressionException : Exception
 {
-    public IncorrectExpressionException(string? message) : base(message) { }
+    public IncorrectExpressionException() : base() { }
 }

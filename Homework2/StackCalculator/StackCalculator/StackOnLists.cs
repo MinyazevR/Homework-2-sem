@@ -43,7 +43,7 @@ public class StackOnLists<T> : IStack<T>
     {
         if (head == null)
         {
-            throw new StackException("Stack is empty");
+            throw new StackIsEmptyException();
         }
         if (head != null)
         {
@@ -69,7 +69,7 @@ public class StackOnLists<T> : IStack<T>
     {
         if (head == null)
         {
-            throw new StackException("Stack is empty");
+            throw new StackIsEmptyException();
         }
         return head == null ? default : head.Value;
     }

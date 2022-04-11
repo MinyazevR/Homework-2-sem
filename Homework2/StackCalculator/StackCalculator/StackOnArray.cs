@@ -47,7 +47,7 @@ public class StackOnArray<T> : IStack<T>
     {
         if (numberOfElements == 0 || values == null)
         {
-            throw new StackException("Stack is empty");
+            throw new StackIsEmptyException();
         }
         T topOfSTack = values[numberOfElements - 1];
         Array.Clear(values, numberOfElements - 1, 1);
@@ -63,7 +63,7 @@ public class StackOnArray<T> : IStack<T>
     {
         if (numberOfElements == 0 || values == null)
         {
-            throw new StackException("Stack is empty");
+            throw new StackIsEmptyException();
         }
         return values[numberOfElements - 1];
     }

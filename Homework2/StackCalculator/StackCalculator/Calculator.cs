@@ -27,7 +27,7 @@ public class Calculator
             }
             if (stack.NumberOfElements() < 2)
             {
-                throw new IncorrectExpressionException("");
+                throw new IncorrectExpressionException();
             }
             float secondNumber = 0;
             float firstNumber = 0;
@@ -36,7 +36,7 @@ public class Calculator
                 secondNumber = stack.Pop();
                 firstNumber = stack.Pop();
             }
-            catch (StackException)
+            catch (StackIsEmptyException)
             {
                 throw;
             }
@@ -61,20 +61,20 @@ public class Calculator
                 {
                     if (Math.Abs(secondNumber - 0) < 0.0000000000000000000000000001)
                     {
-                        throw new DivideByZeroException("");
+                        throw new DivideByZeroException();
                     }
                     stack.Push(firstNumber / secondNumber);
                     break;
                 }
                 default :
                 {
-                    throw new InvalidCharacterException("");
+                    throw new InvalidCharacterException();
                 }
             }
         }
         if (stack.NumberOfElements() != 1)
         {
-            throw new IncorrectExpressionException("");
+            throw new IncorrectExpressionException();
         }
         return stack.Pop();
     }

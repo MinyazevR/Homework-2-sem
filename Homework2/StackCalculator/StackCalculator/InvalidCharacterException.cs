@@ -5,5 +5,5 @@
 /// </summary>
 public class InvalidCharacterException : Exception
 { 
-    public InvalidCharacterException(string? message) : base(message) { }
+    public InvalidCharacterException() : base() { }
 }

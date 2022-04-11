@@ -19,7 +19,7 @@ public class StackTest
     [TestCaseSource(nameof(Stacks))]
     public void ShouldThrowsStackExceptionWhenRemoveFromEmptyStack(IStack<int> stack)
     {
-        var exception = Assert.Throws<StackIsEmptyException>(() => stack?.Pop());
+        Assert.Throws<StackIsEmptyException>(() => stack?.Pop());
     }
 
     [TestCaseSource(nameof(Stacks))]
@@ -32,7 +32,7 @@ public class StackTest
     [TestCaseSource(nameof(Stacks))]
     public void ShouldThrowsStackExceptionWhenTopOfTheStackFromEmptyStack(IStack<int> stack)
     {
-        var exception = Assert.Throws<StackIsEmptyException>(() => stack?.TopOfTheStack());
+        Assert.Throws<StackIsEmptyException>(() => stack?.TopOfTheStack());
     }
 
     [TestCaseSource(nameof(Stacks))]

@@ -1,6 +1,6 @@
-﻿using System;
+﻿namespace Bor;
 
-namespace BorSpace;
+using System;
 
 /// <summary>
 /// A class representing the bor data structure
@@ -13,7 +13,7 @@ public class Bor
     private class Node
     {
         // Dictionary for storing characters for each node
-        public Dictionary<char, Node> dictionary = new Dictionary<char, Node>();
+        public Dictionary<char, Node> dictionary = new();
 
         // A field for storing information about whether a character is the end of a string
         public bool isTerminal { get; set; }
@@ -46,7 +46,7 @@ public class Bor
             }
             if (node != null && node.dictionary.ContainsKey(element[i]))
             {
-                node.dictionary.TryGetValue(element[i], out node);
+                node = node.dictionary[element[i]];
             }
         }
         if (node != null)
@@ -66,7 +66,7 @@ public class Bor
         Node? node = root;
         for (int i = 0; i < element.Length; i++)
         {
-            node.dictionary.TryGetValue(element[i], out node);
+            node = node.dictionary[element[i]];
             if (node == null)
             {
                 return false;
@@ -86,7 +86,7 @@ public class Bor
         {
             if (node!= null)
             {
-                node.dictionary.TryGetValue(prefix[i], out node);
+                node = node.dictionary[prefix[i]];
             }
             else
             {
@@ -101,17 +101,16 @@ public class Bor
     }
 
     // Function for clearing dictionaries
-    static void ClearDictionaryAndNode(string element, int index, Node? node)
+    static private void ClearDictionaryAndNode(string element, int index, Node? node)
     {
         if (index + 1 < element.Length - 1 && node != null)
         {
-            node.dictionary.TryGetValue(element[index + 1], out node);
+            node = node.dictionary[element[index + 1]];
             ClearDictionaryAndNode(element, index + 1, node);
         }
         if (node != null)
         {
             node.dictionary.Clear();
-            node = null;
         }
     }
 
@@ -132,9 +131,9 @@ public class Bor
         {
             if (node != null)
             {
-                node.dictionary.TryGetValue(element[i], out node);
+                node = node.dictionary[element[i]];
             }
-            string subString = element.Substring(0, i + 1);
+            string subString = element[0..(i + 1)];
             if (HowManyStartWithPrefix(subString) < 2)
             {
                 index = i;
@@ -149,12 +148,5 @@ public class Bor
     /// Function for returning the number of elements
     /// </summary>
     /// <returns> Number of elements contained in the bor </returns>
-    public int Size()
-    {
-        return size;
-    }
-
-    static void Main(string[] args)
-    {
-    }
+    public int Size() => size;
 }

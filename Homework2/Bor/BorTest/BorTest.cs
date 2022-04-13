@@ -73,8 +73,24 @@ public class BorTest
     [Test]
     public void ShouldBorSizeEqual8WhenAddStringLength3WithNonExistingFirstSymbolForBorContains5Node()
     {
-        Assert.IsTrue(bor?.Add("hello"));
-        Assert.IsTrue(bor?.Add("bye"));
-        Assert.AreEqual(bor?.Size(), 8);
+        Assert.IsTrue(bor.Add("hello"));
+        Assert.IsTrue(bor.Add("bye"));
+        Assert.AreEqual(8, bor.Size());
+    }
+
+    [Test]
+    public void ShouldExpected2WhenHowManyStartWithPrefixForBorContains2StringWhichStartWithThisPrefix()
+    {
+        Assert.IsTrue(bor.Add("hello"));
+        Assert.IsTrue(bor.Add("hel"));
+        Assert.AreEqual(2, bor.HowManyStartWithPrefix("hel"));
+    }
+
+    [Test]
+    public void ShouldExpected0WhenHowManyStartWithPrefixForNonExistingPrefix()
+    {
+        Assert.IsTrue(bor.Add("hello"));
+        Assert.IsTrue(bor.Add("bye"));
+        Assert.AreEqual(0, bor.HowManyStartWithPrefix("leee"));
     }
 }

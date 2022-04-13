@@ -13,14 +13,14 @@ public class Bor
     private class Node
     {
         // Dictionary for storing characters for each node
-        public Dictionary<char, Node> dictionary = new();
+        public Dictionary<char, Node> Dictionary = new();
 
-        // A field for storing information about whether a character is the end of a string
-        public bool isTerminal { get; set; }
+        // Node property - whether it is the end of a string
+        public bool IsTerminal { get; set; }
     }
 
     // Bor root
-    private Node root = new();
+    private readonly Node root = new();
 
     // Bor size
     private int size;
@@ -36,22 +36,22 @@ public class Bor
         {
             return false;
         }
-        Node? node = root;
+        Node node = root;
         for (int i = 0; i < element.Length; i++)
         {
-            if (node != null && !node.dictionary.ContainsKey(element[i]))
+            if (node != null && !node.Dictionary.ContainsKey(element[i]))
             {
-                node.dictionary.Add(element[i], new Node());
+                node.Dictionary.Add(element[i], new Node());
                 size++;
             }
-            if (node != null && node.dictionary.ContainsKey(element[i]))
+            if (node != null && node.Dictionary.ContainsKey(element[i]))
             {
-                node = node.dictionary[element[i]];
+                node = node.Dictionary[element[i]];
             }
         }
         if (node != null)
         {
-            node.isTerminal = true;
+            node.IsTerminal = true;
         }
         return true;
     }
@@ -66,13 +66,13 @@ public class Bor
         Node? node = root;
         for (int i = 0; i < element.Length; i++)
         {
-            node = node.dictionary[element[i]];
-            if (node == null)
+            if(node.Dictionary.TryGetValue(element[i], out node))
             {
-                return false;
+                continue;
             }
+            return false;
         }
-        return node.isTerminal;
+        return node.IsTerminal;
     }
 
     /// <summary>
@@ -84,20 +84,20 @@ public class Bor
         Node? node = root;
         for (int i = 0; i < prefix.Length;i++)
         {
-            if (node!= null)
+            if (node != null)
             {
-                node = node.dictionary[prefix[i]];
+                if (node.Dictionary.TryGetValue(prefix[i], out node))
+                {
+                    continue;
+                }
             }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
         if (node == null)
         {
             return 0;
         }
-        return node.isTerminal ? 1 + node.dictionary.Count() : node.dictionary.Count();
+        return node.IsTerminal ? 1 + node.Dictionary.Count() : node.Dictionary.Count();
     }
 
     // Function for clearing dictionaries
@@ -105,12 +105,12 @@ public class Bor
     {
         if (index + 1 < element.Length - 1 && node != null)
         {
-            node = node.dictionary[element[index + 1]];
+            node = node.Dictionary[element[index + 1]];
             ClearDictionaryAndNode(element, index + 1, node);
         }
         if (node != null)
         {
-            node.dictionary.Clear();
+            node.Dictionary.Clear();
         }
     }
 
@@ -131,7 +131,7 @@ public class Bor
         {
             if (node != null)
             {
-                node = node.dictionary[element[i]];
+                node = node.Dictionary[element[i]];
             }
             string subString = element[0..(i + 1)];
             if (HowManyStartWithPrefix(subString) < 2)

@@ -67,4 +67,16 @@ public class VectorTest
         Assert.IsTrue(Vector.IsZeroVector(Vector.Subtract(firstVector, copyFirstVector)));
         Assert.IsTrue(Vector.IsZeroVector(Vector.Subtract(secondVector, copySecondVector)));
     }
+
+    [Test]
+    public void ShouldExpetced0WhenCalculateScalarProduct()
+    {
+        Assert.AreEqual(0, Vector.CalculateScalarProduct(new Vector(new(), 12), new Vector(new(), 12)));
+    }
+
+    [Test]
+    public void ShouldExpetcedRightAnswerWhenCalculateScalarProduct()
+    {
+        Assert.AreEqual(40, Vector.CalculateScalarProduct(firstVector, secondVector));
+    }
 }

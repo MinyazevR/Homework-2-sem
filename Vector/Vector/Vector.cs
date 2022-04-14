@@ -101,6 +101,10 @@ public class Vector
         {
             throw new ArgumentException();
         }
+        if (IsZeroVector(firstVector) && IsZeroVector(secondVector))
+        {
+            return 0;
+        }
         float result = 0;
         foreach (ulong keys in firstVector.Coordinates.Keys)
         {

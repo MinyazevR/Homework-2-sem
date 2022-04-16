@@ -1,31 +1,31 @@
+namespace BurrowsWheelerTransformationTest;
+
 using NUnit.Framework;
 using BurrowsWheelerTransform;
-
 using System.IO;
-namespace BurrowsWheelerTransformationTest;
 
 public class Tests
 {
 
     [Test]
-    public void BurrowsWheelerTransformationForEmptyString()
+    public void ShouldExpectedEmptyStringWnenBurrowsWheelerTransformationForEmptyString()
     {
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation("");
-        Assert.AreEqual(newString, "");
+        Assert.AreEqual("", newString);
         Assert.AreEqual("", StringTransformation.InverseBurrowsWheelerTransformation(newString, index));
     }
 
     [Test]
-    public void BurrowsWheelerTransformationForOneCharacterString()
+    public void ShouldExpectedOriginalOneCharacterStringWhenBurrowsWheelerTransformationForOneCharacterString()
     {
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation("a");
-        Assert.AreEqual(newString, "a");
+        Assert.AreEqual("a", newString);
         Assert.AreEqual("a", StringTransformation.InverseBurrowsWheelerTransformation(newString, index));
     }
 
 
     [Test]
-    public void BurrowsWheelerTransformationForFileString()
+    public void ShouldExpectedOriginalRandomStringWhenBurrowsWheelerTransformationForRandomString()
     {
         string stringToConvert = File.ReadAllText("..//..//..//test.txt");
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation(stringToConvert);
@@ -33,7 +33,7 @@ public class Tests
     }
 
     [Test]
-    public void BurrowsWheelerTransformationForFileStringForEqualSymbol()
+    public void ShouldExpectedOriginalStringForEqualSymbolWhenBurrowsWheelerTransformationForStringForEqualSymbol()
     {
         string stringToConvert = File.ReadAllText("..//..//..//test1.txt");
         var (newString, index) = StringTransformation.DirectBurrowsWheelerTransformation(stringToConvert);

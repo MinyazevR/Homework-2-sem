@@ -1,4 +1,5 @@
 ﻿namespace List;
+
 using System;
 using System.Collections.Generic;
 
@@ -31,6 +32,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
         {
             return;
         }
+
         size++;
         if (head == null || tail == null)
         {
@@ -39,6 +41,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
             head.Value = value;
             return;
         }
+
         var newTail = new ListElement(){};
         newTail.Value = value;
         tail.Next = newTail;
@@ -56,12 +59,14 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
         {
             return false;
         }
+
         size--;
         if (index == 0)
         {
             head = head?.Next;
             return true;
         }
+
         var element = head;
         var copyElement = new ListElement();
         for (int i = 0; i < index - 1; i++)
@@ -70,13 +75,16 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
             {
                 copyElement = element;
             }
+
             element = element?.Next;
         }
+
         if (element != null && copyElement != null)
         {
             copyElement.Next = element.Next;
             element.Next = null;
         }
+
         return true;
     }
 
@@ -97,9 +105,11 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
                     Remove(i);
                     return true;
                 }
+
                 copyHead = copyHead?.Next;
             }
         }
+
         return false;
     }
 
@@ -114,15 +124,18 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
         {
             return false;
         }
+
         var element = head;
         for (int i = 0; i < index - 1; i++)
         {
             element = element?.Next;
         }
+
         if (element != null)
         {
             element.Value = value;
         }
+
         return true;
     }
 
@@ -137,6 +150,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
             Console.Write($"{element.Value} ");
             element = element.Next;
         }
+
         Console.WriteLine();
     }
 
@@ -154,8 +168,10 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
             {
                 return true;
             }
+
             element = element.Next;
         }
+
         return false;
     }
 

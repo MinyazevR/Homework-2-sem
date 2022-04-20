@@ -1,7 +1,6 @@
-﻿using System;
+﻿namespace List;
+using System;
 using System.Collections.Generic;
-
-namespace List;
 
 /// <summary>
 /// Сlass representing a list
@@ -14,10 +13,8 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// </summary>
     private class ListElement
     {
-        private ListElement? next { get; set; }
-        private T? value;
-        public T? Value { get => value; set { this.value = value; } }
-        public ListElement? Next { get => next; set { next = value; } }
+        public T? Value { get ; set; }
+        public ListElement? Next { get; set; }
     }
 
     private ListElement? head;
@@ -42,10 +39,10 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
             head.Value = value;
             return;
         }
-        ListElement newHead = new ListElement();
-        newHead.Value = value;
-        tail.Next = newHead;
-        tail = newHead;
+        var newTail = new ListElement(){};
+        newTail.Value = value;
+        tail.Next = newTail;
+        tail = newTail;
     }
 
     /// <summary>
@@ -65,9 +62,8 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
             head = head?.Next;
             return true;
         }
-        ListElement? element = new ListElement();
-        ListElement? copyElement = new ListElement();
-        element = head;
+        var element = head;
+        var copyElement = new ListElement();
         for (int i = 0; i < index - 1; i++)
         {
             if (i == index - 1)
@@ -85,6 +81,29 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     }
 
     /// <summary>
+    /// Function to remove an item from the list
+    /// </summary>
+    /// <param name="value">Value to be deleted</param>
+    /// <returns>was the value in the list</returns>
+    public virtual bool RemoveAt(T value)
+    {
+        var copyHead = head;
+        for (int i = 0; i < size; i++)
+        {
+            while (copyHead!= null)
+            {
+                if (copyHead != null && value != null && value.Equals(copyHead.Value))
+                {
+                    Remove(i);
+                    return true;
+                }
+                copyHead = copyHead?.Next;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Function for changing the value of an element by index
     /// </summary>
     /// <param name="index">Item position in the list</param>
@@ -95,8 +114,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
         {
             return false;
         }
-        ListElement? element = new ListElement();
-        element = head;
+        var element = head;
         for (int i = 0; i < index - 1; i++)
         {
             element = element?.Next;
@@ -113,8 +131,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// </summary>
     public void PrintList()
     {
-        ListElement? element = new ListElement();
-        element = head;
+        var element = head;
         while (element != null)
         {
             Console.Write($"{element.Value} ");
@@ -130,8 +147,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// <returns>Is there an item in the list</returns>
     public bool Contains(T value)
     {
-        ListElement? element = new ListElement();
-        element = head;
+        var element = head;
         while (element != null)
         {
             if (value != null && value.Equals(element.Value))
@@ -144,21 +160,13 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     }
 
     /// <summary>
-    /// Function for deleting a list
+    /// Function for clear list
     /// </summary>
-    public void DeleteList()
-    {
-        while (head != null)
-        {
-            ListElement? element = head;
-            head = head.Next;
-            element = null;
-        }
-    }
+    public void ClearList() => head = null;
 
     /// <summary>
     /// Function for return number of element on list
     /// </summary>
     /// <returns>Number of element on list</returns>
-    public int ReturnSize() => size;
+    public int Size() => size;
 }

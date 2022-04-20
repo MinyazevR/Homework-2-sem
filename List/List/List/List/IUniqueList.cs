@@ -28,7 +28,7 @@ public interface IUniqueList<T>
     /// <summary>
     /// Function for deleting a list
     /// </summary>
-    public void DeleteList();
+    public void ClearList();
 
     /// <summary>
     /// Function for adding an item to a list
@@ -43,15 +43,15 @@ public interface IUniqueList<T>
     public bool Remove(int index);
 
     /// <summary>
+    /// Function to remove an item from the list
+    /// </summary>
+    /// <param name="value">Value to be deleted</param>
+    /// <returns>was the value in the list</returns>
+    public bool RemoveAt(T value);
+
+    /// <summary>
     /// Function for return number of element on list
     /// </summary>
     /// <returns>Number of element on list</returns>
-    public int ReturnSize();
-}
-
-public class Solution
-{
-    public static void Main(string[] args)
-    {
-    }
+    public int Size();
 }

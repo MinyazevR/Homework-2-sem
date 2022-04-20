@@ -1,11 +1,11 @@
+namespace ListTest;
+
 using NUnit.Framework;
 using List;
 
-namespace ListTest;
-
 public class Tests
 {
-    IUniqueList<int>? list;
+    IUniqueList<int> list = new UniqueList<int>();
 
     [SetUp]
     public void Setup()
@@ -14,74 +14,75 @@ public class Tests
     }
 
     [Test]
-    public void NumberOfElementsInEmptyListEqual0()
+    public void ShouldExpectedZeroWhenListSizeEqualZero()
     {
-        Assert.AreEqual(0, list?.ReturnSize());
+        Assert.AreEqual(0, list.Size());
     }
 
     [Test]
-    public void ListShouldNotBeEmptyAfterPush()
+    public void ShouldExpectedOneWhenSizeAfterAddToEmptyList()
     {
-        list?.Add(1);
-        Assert.AreEqual(1, list?.ReturnSize());
+        list.Add(1);
+        Assert.AreEqual(1, list.Size());
     }
 
     [Test]
-    public void TryRemoveItemFromEmptyList()
+    public void ShouldThrowsRemoveNonExistingElementExceptionWhenRemoveFromEmptyList()
     {
-        Assert.Throws<RemoveNonExistenElementException>(() => list?.Remove(0));
+        Assert.Throws<RemoveNonExistingElementException>(() => list.Remove(0));
     }
 
     [Test]
-    public void RemoveNonExistenElementException()
+    public void ShouldThrowsRemoveNonExistingElementExceptionWhenRemoveNonExistenElement()
     {
-        list?.Add(1);
-        list?.Add(2);
-        list?.Add(0);
-        list?.Add(-12);
-        Assert.Throws<RemoveNonExistenElementException>(() => list?.Remove(4));
+        list.Add(1);
+        list.Add(2);
+        list.Add(0);
+        list.Add(-12);
+        Assert.Throws<RemoveNonExistingElementException>(() => list.Remove(4));
     }
 
     [Test]
-    public void AddRepeatElement()
+    public void ShouldThrowsRepeatValueExceptionWhenAddExistingElement()
     {
-        list?.Add(1);
-        Assert.Throws<RepeatValueException>(() => list?.Add(1));
+        list.Add(1);
+        Assert.Throws<RepeatValueException>(() => list.Add(1));
     }
 
     [Test]
-    public void AddedElementMustContain()
+    public void ShouldExpectedTrueWhenContainsForExistingElement()
     {
-        list?.Add(12);
-        Assert.AreEqual(true, list?.Contains(12));
+        list.Add(12);
+        Assert.AreEqual(true, list.Contains(12));
     }
 
     [Test]
-    public void NonExistenElementNotMustContain()
+    public void ShouldExpectedFalseWhenContainsForExistingElement()
     {
-        Assert.AreEqual(false, list?.Contains(10));
+        list.Add(2);
+        Assert.AreEqual(false, list.Contains(10));
     }
 
     [Test]
-    public void RemoveElementNotMustContain()
+    public void ShouldExpectedFalseWhenContainsForRemovedElement()
     {
-        list?.Add(2);
-        list?.Remove(0);
-        Assert.AreEqual(false, list?.Contains(2));
+        list.Add(2);
+        list.RemoveAt(2);
+        Assert.AreEqual(false, list.Contains(2));
     }
 
     [Test]
-    public void ChangeNonExistenElement()
+    public void ShouldExpectedFalseWhenChangeNonExistenElement()
     {
-        Assert.AreEqual(false, list?.ChangeElement(2, 12));
+        Assert.AreEqual(false, list.ChangeElement(2, 12));
     }
 
     [Test]
-    public void ContainsChangeElement()
+    public void ShouldExpectedFalseWhenContainsChangeReplacedElement()
     {
-        list?.Add(125);
-        list?.ChangeElement(0, 12);
-        Assert.AreEqual(true, list?.Contains(12));
-        Assert.AreEqual(false, list?.Contains(125));
+        list.Add(125);
+        list.ChangeElement(0, 12);
+        Assert.AreEqual(true, list.Contains(12));
+        Assert.AreEqual(false, list.Contains(125));
     }
 }

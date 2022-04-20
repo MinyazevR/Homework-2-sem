@@ -3,7 +3,6 @@
 /// <summary>
 /// Class representing a list of unique values
 /// </summary>
-/// <typeparam name="T"></typeparam>
 public class UniqueList<T> : SinglyLinkedList<T>
 {
     /// <summary>
@@ -12,18 +11,11 @@ public class UniqueList<T> : SinglyLinkedList<T>
     /// <param name="value">Type of item value in the list</param>
     public override void Add(T value)
     {
-        try
+        if (Contains(value))
         {
-            if (Contains(value))
-            {
-                throw new RepeatValueException("this value already exist in list");
-            }
+            throw new RepeatValueException();
         }
-        catch (RepeatValueException exception)
-        {
-            Console.WriteLine($"Ошибка: {exception.Message}");
-            throw;
-        }
+
         base.Add(value);
     }
 
@@ -33,18 +25,26 @@ public class UniqueList<T> : SinglyLinkedList<T>
     /// <param name="index">Item position in the list</param>
     public override bool Remove(int index)
     {
-        try
+        if (!base.Remove(index))
         {
-            if (!base.Remove(index))
-            {
-                throw new RemoveNonExistenElementException("this item does not exist in the list");
-            }
+            throw new RemoveNonExistingElementException();
         }
-        catch (RemoveNonExistenElementException exception)
-        {
-            Console.WriteLine($"Ошибка: {exception.Message}");
-            throw;
-        }
+
         return true;
+    }
+
+    /// <summary>
+    /// Function to remove an item from the list
+    /// </summary>
+    /// <param name="value">Value to be deleted</param>
+    /// <returns>was the value in the list</returns>
+    public override bool RemoveAt(T value)
+    {
+        if (!base.RemoveAt(value))
+        {
+            throw new RemoveNonExistingElementException();
+        }
+
+        return false;
     }
 }

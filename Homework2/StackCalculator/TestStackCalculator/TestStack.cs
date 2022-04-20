@@ -19,7 +19,7 @@ public class StackTest
     [TestCaseSource(nameof(Stacks))]
     public void ShouldThrowsStackExceptionWhenRemoveFromEmptyStack(IStack<int> stack)
     {
-        Assert.Throws<StackIsEmptyException>(() => stack?.Pop());
+        Assert.Throws<StackIsEmptyException>(() => stack.Pop());
     }
 
     [TestCaseSource(nameof(Stacks))]
@@ -32,45 +32,45 @@ public class StackTest
     [TestCaseSource(nameof(Stacks))]
     public void ShouldThrowsStackExceptionWhenTopOfTheStackFromEmptyStack(IStack<int> stack)
     {
-        Assert.Throws<StackIsEmptyException>(() => stack?.TopOfTheStack());
+        Assert.Throws<StackIsEmptyException>(() => stack.TopOfTheStack());
     }
 
     [TestCaseSource(nameof(Stacks))]
     public void ShouldTopOfTheStackEqual1WhenPush1(IStack<int> stack)
     {
-        stack?.Push(1);
-        Assert.AreEqual(1, stack?.TopOfTheStack());
+        stack.Push(1);
+        Assert.AreEqual(1, stack.TopOfTheStack());
     }
 
     [TestCaseSource(nameof(Stacks))]
     public void ShouldNumberOFElementsEqualZeroWhenEmptyStack(IStack<int> stack)
     {
-        Assert.AreEqual(0, stack?.NumberOfElements());
+        Assert.AreEqual(0, stack.NumberOfElements());
     }
 
     [TestCaseSource(nameof(Stacks))]
     public void ShouldNumberOfElementsEqual1WhenPushInEmptyStack(IStack<int> stack)
     {
-        stack?.Push(1);
-        Assert.AreEqual(1, stack?.NumberOfElements());
+        stack.Push(1);
+        Assert.AreEqual(1, stack.NumberOfElements());
     }
 
     [TestCaseSource(nameof(Stacks))]
     public void ShouldNumberOfElementsNotChangesWhenRemoveAfterPush(IStack<int> stack)
     {
-        stack?.Push(1);
-        Assert.AreEqual(1, stack?.NumberOfElements());
-        stack?.Pop();
-        Assert.AreEqual(0, stack?.NumberOfElements());
+        stack.Push(1);
+        Assert.AreEqual(1, stack.NumberOfElements());
+        stack.Pop();
+        Assert.AreEqual(0, stack.NumberOfElements());
     }
 
 
     [TestCaseSource(nameof(Stacks))]
     public void ShouldTopOfTheStackNotChangesWhenPrintStack(IStack<int> stack)
     {
-        stack?.Push(1);
-        stack?.Push(2);
-        stack?.PrintStack();
-        Assert.AreEqual(2, stack?.TopOfTheStack());
+        stack.Push(1);
+        stack.Push(2);
+        stack.PrintStack();
+        Assert.AreEqual(2, stack.TopOfTheStack());
     }
 }

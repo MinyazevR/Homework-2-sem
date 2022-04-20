@@ -31,11 +31,13 @@ public class StackOnArray<T> : IStack<T>
         {
             Array.Resize(ref values, values.Length + 20);
         }
+
         numberOfElements++;
         if (values == null)
         {
             return;
         }
+
         values[numberOfElements - 1] = value;
     }
 
@@ -49,6 +51,7 @@ public class StackOnArray<T> : IStack<T>
         {
             throw new StackIsEmptyException();
         }
+
         T topOfSTack = values[numberOfElements - 1];
         Array.Clear(values, numberOfElements - 1, 1);
         numberOfElements--;
@@ -65,6 +68,7 @@ public class StackOnArray<T> : IStack<T>
         {
             throw new StackIsEmptyException();
         }
+
         return values[numberOfElements - 1];
     }
 

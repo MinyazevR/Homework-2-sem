@@ -45,6 +45,7 @@ public class StackOnLists<T> : IStack<T>
         {
             throw new StackIsEmptyException();
         }
+
         if (head != null)
         {
             T? value = head.Value;
@@ -83,6 +84,7 @@ public class StackOnLists<T> : IStack<T>
         {
             return;
         }
+
         StackElement? copyHead = head;
         while (copyHead != null)
         {

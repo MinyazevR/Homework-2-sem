@@ -19,18 +19,20 @@ public class Calculator
             {
                 continue;
             }
-            int number = 0;
-            if (int.TryParse(inputString[i], out number))
+
+            if (int.TryParse(inputString[i], out int number))
             {
                 stack.Push(number);
                 continue;
             }
+
             if (stack.NumberOfElements() < 2)
             {
                 throw new IncorrectExpressionException();
             }
-            float secondNumber = 0;
-            float firstNumber = 0;
+
+            float secondNumber;
+            float firstNumber;
             try
             {
                 secondNumber = stack.Pop();
@@ -40,6 +42,7 @@ public class Calculator
             {
                 throw;
             }
+
             switch (inputString[i])
             {
                 case "+" :
@@ -47,16 +50,19 @@ public class Calculator
                     stack.Push(firstNumber + secondNumber);
                     break;
                 }
+
                 case "-" :
                 {
                      stack.Push(firstNumber - secondNumber);
                      break;
                 }
+
                 case "*" :
                 {
                      stack.Push(firstNumber * secondNumber);
                      break;
                 }
+
                 case "/" :
                 {
                     if (Math.Abs(secondNumber - 0) < 0.0000000000000000000000000001)
@@ -66,16 +72,19 @@ public class Calculator
                     stack.Push(firstNumber / secondNumber);
                     break;
                 }
+
                 default :
                 {
                     throw new InvalidCharacterException();
                 }
             }
         }
+
         if (stack.NumberOfElements() != 1)
         {
             throw new IncorrectExpressionException();
         }
+
         return stack.Pop();
     }
 }

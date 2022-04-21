@@ -23,7 +23,7 @@ public class ParsingTree
         /// </summary>
         public class Operand : Node
         {
-            public string Value;
+            private readonly string Value;
             public Operand(string element)
             {
                 Value = element;
@@ -73,6 +73,7 @@ public class ParsingTree
                     {
                         throw new NullReferenceException();
                     }
+
                     return LeftSon.Count() + RightSon.Count();
                 }
 
@@ -82,6 +83,7 @@ public class ParsingTree
                     {
                         return;
                     }
+
                     OperatorPrintTemplate("+");
                 }
             }
@@ -95,6 +97,7 @@ public class ParsingTree
                     {
                         throw new NullReferenceException();
                     }
+
                     return LeftSon.Count() - RightSon.Count();
                 }
 
@@ -104,6 +107,7 @@ public class ParsingTree
                     {
                         return;
                     }
+
                     OperatorPrintTemplate("-");
                 }
             }
@@ -117,7 +121,14 @@ public class ParsingTree
                     {
                         throw new NullReferenceException();
                     }
-                    return LeftSon.Count() / RightSon.Count();
+
+                    float rightSonValue = RightSon.Count();
+                    if (Math.Abs(rightSonValue - 0) < 0.0000000000000000000000000001)
+                    {
+                        throw new DivideByZeroException();
+                    }
+
+                    return LeftSon.Count() / rightSonValue;
                 }
 
                 public override void Print()
@@ -126,6 +137,7 @@ public class ParsingTree
                     {
                         return;
                     }
+
                     OperatorPrintTemplate("/");
                 }
             }
@@ -163,8 +175,8 @@ public class ParsingTree
     public void BuildTree(string expression)
     {
         int index = 0;
-        Node? root = null;
-        treeRoot = PrivateBuildTree(expression, ref index, root);
+        Node? node = null;
+        treeRoot = PrivateBuildTree(expression, ref index, node);
     }
 
     // Auxiliary function for building a tree
@@ -182,7 +194,7 @@ public class ParsingTree
         }
 
         // The condition in order to avoid confusion, for example, with 4 -5 and 4 - 5
-        if (index < expression.Length - 1 && !IsOperand(expression[index + 1]) && CharIsOperator(expression[index]))
+        if (index < expression.Length - 1 && !IsOperand(expression[index + 1]) && IsOperator(expression[index]))
         {
             InitializeNode(expression, ref index, ref node);
             return node;
@@ -278,7 +290,7 @@ public class ParsingTree
         return treeRoot.Count();
     }
 
-    private static bool CharIsOperator(char element) => element == '+' || element == '-' || element == '*' || element == '/';
+    private static bool IsOperator(char element) => element == '+' || element == '-' || element == '*' || element == '/';
 
     private static bool IsOperand(char element) => element <= '9' && element >= '0';
 }

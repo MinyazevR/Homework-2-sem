@@ -16,7 +16,7 @@ public class TestsrsingTree
     [SetUp]
     public void Setup()
     {
-        tree = new ();
+        tree = new();
     }
 
     [Test]
@@ -36,10 +36,18 @@ public class TestsrsingTree
     }
 
     [Test]
-    public void ShouldExpectedThrowsNullReferenceExceptionWhenExpressionIsEmptyString()
+    public void ShouldThrowsNullReferenceExceptionWhenExpressionIsEmptyString()
     {
         string stringToConvert = "";
         tree.BuildTree(stringToConvert);
         Assert.Throws<NullReferenceException>(() => tree.Count());
+    }
+
+    [Test]
+    public void ThrowsDivideByZeroExceptionWhenExpressionContainsDivisionByZero()
+    {
+        string stringToConvert = "/ 1 (- 2 2)";
+        tree.BuildTree(stringToConvert);
+        Assert.Throws<DivideByZeroException>(() => tree.Count());
     }
 }

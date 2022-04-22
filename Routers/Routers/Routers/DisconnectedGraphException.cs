@@ -5,5 +5,5 @@
 /// </summary>
 public class DisconnectedGraph : Exception
 {
-    public DisconnectedGraph(string? message) : base(message) { }
+    public DisconnectedGraph() : base() { }
 }

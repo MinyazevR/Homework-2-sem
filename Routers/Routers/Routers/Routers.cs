@@ -1,9 +1,7 @@
 ﻿namespace Routers;
 
 using System;
-using System.Text;
 using System.Collections.Generic;
-using System.Collections;
 
 /// <summary>
 /// Class representing a graph
@@ -19,16 +17,23 @@ public class Graph : IGraph
         public Dictionary<int, int> newDictionary = new();
     }
 
+    public Graph(){ }
+
+    public Graph (int x)
+    {
+        AddNode(x);
+    }
+
     /// List for storing vertices
-    List<Node> nodes = new List<Node>();
+    private readonly List<Node> nodes = new();
 
     /// List for storing vertex values
     /// nodes[0] corresponds to nodeValue[0]
-    List<int> nodeValue = new List<int>();
+    private readonly List<int> nodeValue = new();
 
     /// Dictionary of Adjacency
     /// The key is a pair of vertices, the value is the length of the edge between them
-    Dictionary<(int, int), int> adjacencyDictionary = new();
+    private Dictionary<(int, int), int> adjacencyDictionary = new();
 
     /// <summary>
     /// Function for adding a node
@@ -43,6 +48,7 @@ public class Graph : IGraph
             nodeValue.Add(index);
             return true;
         }
+
         return false;
     }
 
@@ -55,14 +61,17 @@ public class Graph : IGraph
     /// <returns>Was there an edge in the graph</returns>
     public bool SetLength(int valueFirstNode, int valueSecondNode, int length)
     {
-        if (!nodeValue.Contains(valueFirstNode) || !nodeValue.Contains(valueSecondNode) || valueSecondNode == (valueFirstNode))
+        if (!nodeValue.Contains(valueFirstNode) || !nodeValue.Contains(valueSecondNode) || valueSecondNode == valueFirstNode)
         {
             return false;
         }
-        if (!adjacencyDictionary.ContainsKey((valueFirstNode, valueSecondNode)))
+
+        if (adjacencyDictionary.ContainsKey((valueFirstNode, valueSecondNode)))
         {
-            adjacencyDictionary.Add((valueFirstNode, valueSecondNode), length);
+            adjacencyDictionary.Remove((valueFirstNode, valueSecondNode));
         }
+
+        adjacencyDictionary.Add((valueFirstNode, valueSecondNode), length);
         return true;
     }
 
@@ -70,19 +79,23 @@ public class Graph : IGraph
     /// Function for constructing a new graph without cycles
     /// </summary>
     /// <returns>Acyclic graph, with maximum sum of edges</returns>
-    public Graph BuildNewGraph()
+    public Graph BuildAcyclicGraph()
     {
         if (!IsTheGraphConnected())
         {
-            throw new DisconnectedGraph("The graph is not connected");
+            throw new DisconnectedGraph();
         }
 
-        ///List of subgraphs, each of which initially contains a vertex from the original graph
-        List<Graph> subgraphs = new List<Graph>();
+        // List of subgraphs, each of which initially contains a vertex from the original graph
+        List<Graph> subgraphs = new();
+
+        // The keys are nodes, the value is the index of the graph with the list in which the node is located
+        Dictionary<int, int> graphInWhichTheNodeIsLocated = new();
+
         for (int i = 0; i < nodeValue.Count; i++)
         {
-            subgraphs.Add(new());
-            subgraphs[i].AddNode(nodeValue[i]);
+            subgraphs.Add(new(nodeValue[i]));
+            graphInWhichTheNodeIsLocated.Add(nodeValue[i], i);
         }
 
         ///Dictionary of the adjacency of the original graph, but with values sorted in descending order
@@ -101,44 +114,19 @@ public class Graph : IGraph
             {
                 var (firstNode, secondNode) = edgeVertices;
                 var length = adjacencyDictionary[edgeVertices];
-                if (NodeContainedInSameGraph(firstNode, secondNode, subgraphs))
+                if (graphInWhichTheNodeIsLocated[firstNode] == graphInWhichTheNodeIsLocated[secondNode])
                 {
                     continue;
                 }
+
                 else
                 {
-                    CombineTwoGraphs(firstNode, secondNode, length, subgraphs);
+                    CombineTwoGraphs(firstNode, secondNode, length, subgraphs, graphInWhichTheNodeIsLocated);
                 }
             }
         }
-        return subgraphs[0];
-    }
 
-    /// <summary>
-    /// function for checking the location of two vertices in one graph from a set of graphs
-    /// </summary>
-    /// <param name="firstNode">Value of the first node</param>
-    /// <param name="secondNode">Value of the second node</param>
-    /// <param name="subgraphs"></param>
-    /// <returns>Are two vertices in the same graph</returns>
-    private bool NodeContainedInSameGraph(int firstNode, int secondNode, List<Graph> subgraphs)
-    {
-        for (int i = 0; i < subgraphs.Count; i++)
-        {
-            if (subgraphs[i].nodeValue.Contains(firstNode) && subgraphs[i].nodeValue.Contains(secondNode))
-            {
-                return true;
-            }
-            if (subgraphs[i].nodeValue.Contains(firstNode) && !subgraphs[i].nodeValue.Contains(secondNode))
-            {
-                return false;
-            }
-            if (!subgraphs[i].nodeValue.Contains(firstNode) && subgraphs[i].nodeValue.Contains(secondNode))
-            {
-                return false;
-            }
-        }
-        return false;
+        return subgraphs[0];
     }
 
     /// <summary>
@@ -148,43 +136,20 @@ public class Graph : IGraph
     /// <param name="secondNode">Value of the second node</param>
     /// <param name="length">Edge length</param>
     /// <param name="subgraphs">List of graphs</param>
-    private void CombineTwoGraphs(int firstNode, int secondNode, int length, List<Graph> subgraphs)
+    private static void CombineTwoGraphs(int firstNode, int secondNode, int length, List<Graph> subgraphs, Dictionary<int, int> dictionary)
     {
-        Graph? firstGraph = null;
-        Graph? secondGraph = null;
-        for (int i = 0; i < subgraphs.Count; i++)
-        {
-            if (firstGraph != null && secondGraph != null)
-            {
-                break;
-            }
-            if (subgraphs[i].nodeValue.Contains(firstNode))
-            {
-                firstGraph = subgraphs[i];
-            }
-            if (subgraphs[i].nodeValue.Contains(secondNode))
-            {
-                secondGraph = subgraphs[i];
-            }
-        }
-        if (firstGraph == null || secondGraph == null)
-        {
-            return;
-        }
+        Graph firstGraph = subgraphs[dictionary[firstNode]];
+        Graph secondGraph = subgraphs[dictionary[secondNode]];
+
         for (int i = 0; i < firstGraph.nodeValue.Count; i++)
         {
-            secondGraph?.AddNode(firstGraph.nodeValue[i]);
+            secondGraph.AddNode(firstGraph.nodeValue[i]);
         }
-        if (secondGraph != null && firstGraph != null)
-        {
-            secondGraph.adjacencyDictionary =
-            firstGraph.adjacencyDictionary.Concat(secondGraph.adjacencyDictionary).ToDictionary(x => x.Key, x => x.Value);
-            secondGraph.adjacencyDictionary.Add((firstNode, secondNode), length);
-        }
-        if (firstGraph == null)
-        {
-            return;
-        }
+
+        secondGraph.adjacencyDictionary =
+        firstGraph.adjacencyDictionary.Concat(secondGraph.adjacencyDictionary).ToDictionary(x => x.Key, x => x.Value);
+        secondGraph.adjacencyDictionary.Add((firstNode, secondNode), length);
+
         firstGraph.nodes.Clear();
         firstGraph.nodeValue.Clear();
         firstGraph.adjacencyDictionary.Clear();
@@ -214,7 +179,12 @@ public class Graph : IGraph
             {
                 array.Add(second);
             }
+            else if (second == nodeIndex)
+            {
+                array.Add(first);
+            }
         }
+
         foreach (int item in array)
         {
             if (!isTerminal.Contains(item))
@@ -222,6 +192,7 @@ public class Graph : IGraph
                 NumberOfConnectedGraphElements(item, isTerminal);
             }
         }
+
         return isTerminal;
     }
 
@@ -229,8 +200,8 @@ public class Graph : IGraph
     /// Function for checking the connectivity of a graph
     /// </summary>
     /// <returns>Is the graph connected</returns>
-    private bool IsTheGraphConnected()
-    => NumberOfConnectedGraphElements(1, new()).Count == nodes.Count;
+    public bool IsTheGraphConnected()
+    => nodeValue.Count == 0 || NumberOfConnectedGraphElements(nodeValue[0], new()).Count == nodes.Count;
 
     /// <summary>
     /// Function for graph constructionПуть 
@@ -242,11 +213,11 @@ public class Graph : IGraph
         for (int i = 0; i < stringToConvert.Length; i++)
         {
             var newStringArray = stringToConvert[i].Split(' ');
-            int firstNumber = 0;
-            if (Int32.TryParse(newStringArray[0], out firstNumber))
+            if (Int32.TryParse(newStringArray[0], out int firstNumber))
             {
                 AddNode(firstNumber);
             }
+
             int secondNumber = 0;
             for (int j = 1; j < newStringArray.Length; j++)
             {
@@ -254,12 +225,13 @@ public class Graph : IGraph
                 {
                     continue;
                 }
-                int t = 0;
-                if (Int32.TryParse(newStringArray[j], out t))
+
+                if (Int32.TryParse(newStringArray[j], out int number))
                 {
-                    AddNode(t);
-                    secondNumber = t;
+                    AddNode(number);
+                    secondNumber = number;
                 }
+
                 else
                 {
                     int k = 0;
@@ -271,11 +243,12 @@ public class Graph : IGraph
                             k++;
                             continue;
                         }
+
                         newNumber += newStringArray[j][k];
                         k++;
                     }
-                    int length = 0;
-                    if (Int32.TryParse(newNumber, out length))
+
+                    if (Int32.TryParse(newNumber, out int length))
                     {
                         SetLength(firstNumber, secondNumber, length);
                     }
@@ -291,22 +264,27 @@ public class Graph : IGraph
     public void PrintGraph(string pathToFile)
     {
         ConvertToAnotherDictionary();
-        using (StreamWriter writer = new StreamWriter(pathToFile))
-        for (int i = 0; i < nodeValue.Count; i++)
+        using StreamWriter writer = new(pathToFile);
         {
-            if (nodes[i].newDictionary.Keys.Count != 0)
+            for (int i = 0; i < nodeValue.Count; i++)
             {
-                writer.Write($"{nodeValue[i]} : ");
+                if (nodes[i].newDictionary.Keys.Count != 0)
+                {
+                    writer.Write($"{nodeValue[i]} : ");
+                }
+
+                else
+                {
+                    continue;
+                }
+
+                foreach (int key in nodes[i].newDictionary.Keys)
+                {
+                    writer.Write($"{key} ({nodes[i].newDictionary[key]}), ");
+                }
+
+                writer.WriteLine();
             }
-            else
-            {
-                continue;
-            }
-            foreach (int key in nodes[i].newDictionary.Keys)
-            {
-                writer.Write($"{key} ({nodes[i].newDictionary[key]}), ");
-            }
-            writer.WriteLine();
         }
     }
 }

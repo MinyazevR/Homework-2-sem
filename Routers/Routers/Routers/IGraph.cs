@@ -22,10 +22,10 @@ public interface IGraph
     /// Function for constructing a new graph without cycles
     /// </summary>
     /// <returns>Acyclic graph, with maximum sum of edges</returns>
-    public Graph BuildNewGraph();
+    public Graph BuildAcyclicGraph();
 
     /// <summary>
-    /// Function for graph constructionПуть 
+    /// Function for graph construction 
     /// </summary>
     /// <param name="pathToFile">The path to the file with the table</param>
     public void BuildGraph(string pathToFile);
@@ -35,4 +35,10 @@ public interface IGraph
     /// </summary>
     /// <param name="pathToFile">File path</param>
     public void PrintGraph(string pathToFile);
+
+    /// <summary>
+    /// Function for checking the connectivity of a graph
+    /// </summary>
+    /// <returns>Is the graph connected</returns>
+    public bool IsTheGraphConnected();
 }

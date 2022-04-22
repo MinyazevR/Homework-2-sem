@@ -31,7 +31,7 @@ jobs:
         with:
           dotnet-version: '6.x'
       - name: Restore
-        run: for f in $(find . -name "*.sln"); do nuget restore $f; done
+        run: for f in $(find . -name "*.sln"); do dotnet restore $f; done
       - name: Build
         run: for f in $(find . -name "*.sln"); do dotnet build $f; done
       - name: Test

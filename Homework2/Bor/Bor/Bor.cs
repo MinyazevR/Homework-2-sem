@@ -1,10 +1,7 @@
-﻿using System;
-
-namespace String;
+﻿﻿namespace Bor;
 
 /// <summary>
 /// A class representing the bor data structure
-/// The bor can store Latin alphabet characters, numbers
 /// </summary>
 public class Bor
 {
@@ -13,23 +10,18 @@ public class Bor
     /// </summary>
     private class Node
     {
-        /// <summary>
-        /// Array of vertices to move from one vertex to another
-        /// The bor can store Latin alphabet characters, numbers
-        /// </summary>
-        public Node?[] next = new Node['z'];
+        // Dictionary for storing characters for each node
+        public Dictionary<char, Node> Nodes = new();
 
-        // A field for storing information about whether a character is the end of a string
-        public bool isTerminal { get; set; }
-
-        // A field for storing information about the number of strings containing a certain prefix
-        public int numberOfLinesContainingThePrefix { get; set; }
+        // Node property - whether it is the end of a string
+        public bool IsTerminal { get; set; }
     }
 
-    private Node root = new Node();
+    // Bor root
+    private readonly Node root = new();
 
     // Bor size
-    private int size;
+    public int Size { get; private set; }
 
     /// <summary>
     /// Function for adding a string
@@ -38,49 +30,31 @@ public class Bor
     /// <returns> Was there an element string before calling Add </returns>
     public bool Add(string element)
     {
-        Node? node = root;
-        int counter = 0;
-        for(int i = 0; i < element.Length; i++)
+        if (Contains(element))
         {
-            if(element[i] > 'z')
-            {
-                throw new Exception("The bor can store Latin alphabet characters, numbers"); ;
-            }
-            if (node != null && node.next[element[i]] == null)
-            {
-                node.next[element[i]] = new Node();
-                size++;
-            }
-            else
-            {
-                counter++;
-            }
-            if (node != null)
-            {
-                node = node.next[element[i]];
-                if(node != null)
-                {
-                    node.numberOfLinesContainingThePrefix++;
-                }
-            }
-        }
-        if (counter == element.Length && node != null && node.isTerminal)
-        {
-            Node? newNode = root;
-            for (int i = 0; i < element.Length; i++)
-            {
-                newNode = newNode?.next[element[i]];
-                if(newNode != null)
-                {
-                    newNode.numberOfLinesContainingThePrefix--;
-                }
-            }
             return false;
         }
+
+        Node node = root;
+        for (int i = 0; i < element.Length; i++)
+        {
+            if (node != null && !node.Nodes.ContainsKey(element[i]))
+            {
+                node.Nodes.Add(element[i], new Node());
+                Size++;
+            }
+
+            if (node != null && node.Nodes.ContainsKey(element[i]))
+            {
+                node = node.Nodes[element[i]];
+            }
+        }
+
         if (node != null)
         {
-            node.isTerminal = true;
+            node.IsTerminal = true;
         }
+
         return true;
     }
 
@@ -94,34 +68,49 @@ public class Bor
         Node? node = root;
         for (int i = 0; i < element.Length; i++)
         {
-            node = node.next[element[i]];
-            if (node == null)
+            if (node.Nodes.TryGetValue(element[i], out node))
             {
-                return false;
+                continue;
             }
+
+            return false;
         }
-        return node.isTerminal;
+
+        return node.IsTerminal;
     }
 
     /// <summary>
     /// Function for finding the number of strings starting with a prefix
-    /// </summary>Количество строк содеражащих префикс
+    /// </summary>
     /// <returns> The number of strings starting with the prefix </returns>
     public int HowManyStartWithPrefix(string prefix)
     {
         Node? node = root;
-        for (int i = 0; i < prefix.Length;i++)
+        for (int i = 0; i < prefix.Length; i++)
         {
-            if (node?.next[prefix[i]] != null)
+            if (node != null)
             {
-                node = node.next[prefix[i]];
+                if (node.Nodes.TryGetValue(prefix[i], out node))
+                {
+                    continue;
+                }
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
-        return node == null ? 0 : node.numberOfLinesContainingThePrefix;
+
+        if (node == null)
+        {
+            return 0;
+        }
+
+        return node.IsTerminal ? 1 + node.Nodes.Count : node.Nodes.Count;
+    }
+
+    // Function for clearing dictionaries
+    static private void ClearDictionaryAndNode(Node node)
+    {
+        node.Nodes.Clear();
     }
 
     /// <summary>
@@ -131,49 +120,50 @@ public class Bor
     /// <returns> as there an element string before calling Remove </returns>
     public bool Remove(string element)
     {
-        if(!this.Contains(element))
+        if (!Contains(element))
         {
             return false;
         }
-        Node? node = root;
-        Node? nodeWithMaxPrefix = root;
+
+        int index = 0;
+        Node node = root;
+        Node? anotherNode = null;
         for (int i = 0; i < element.Length; i++)
         {
-            node = node?.next[element[i]];
-            if(node != null)
+            if (node != null)
             {
-                node.numberOfLinesContainingThePrefix--;
+                node = node.Nodes[element[i]];
+
+                if (node.Nodes.Count == 0 && i == element.Length - 1)
+                {
+                    if (anotherNode != null)
+                    {
+                        ClearDictionaryAndNode(anotherNode);
+                        Size -= i - index;
+                        return true;
+                    }
+                    else
+                    {
+                        ClearDictionaryAndNode(root);
+                        Size = 0;
+                        return true;
+                    }
+                }
+
+                if (node.Nodes.Count != 0 && i == element.Length - 1)
+                {
+                    node.IsTerminal = false;
+                    return true;
+                }
             }
-            if (i == element.Length - 1)
+
+            if (node != null && node.IsTerminal)
             {
-                nodeWithMaxPrefix.isTerminal = false;
-            }
-        }
-        node = root;
-        for (int i = 0; i < element.Length; i++)
-        {
-            nodeWithMaxPrefix = node;
-            node = node?.next[element[i]];
-            if (nodeWithMaxPrefix?.next[element[i]]?.numberOfLinesContainingThePrefix == 0)
-            {
-                nodeWithMaxPrefix.next[element[i]] = null;
+                index = i;
+                anotherNode = node;
             }
 
         }
         return true;
-    }
-
-    /// <summary>
-    /// Function for returning the number of elements
-    /// </summary>
-    /// <returns> Number of elements contained in the bor </returns>
-    public int Size()
-    {
-        return this.size;
-    }
-
-    static void Main(string[] args)
-    {
-        return;
     }
 }

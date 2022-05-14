@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LZW", "LZW\LZW.csproj", "{5DAEADDF-7108-4028-90E1-5C05C2034360}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "LZWTest\Tests.csproj", "{455E760B-8592-4A15-BB37-A79DAE435B4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5DAEADDF-7108-4028-90E1-5C05C2034360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DAEADDF-7108-4028-90E1-5C05C2034360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DAEADDF-7108-4028-90E1-5C05C2034360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DAEADDF-7108-4028-90E1-5C05C2034360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455E760B-8592-4A15-BB37-A79DAE435B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455E760B-8592-4A15-BB37-A79DAE435B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455E760B-8592-4A15-BB37-A79DAE435B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455E760B-8592-4A15-BB37-A79DAE435B4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7673691E-822C-4405-8F11-DE9C2BCBAE62}
+	EndGlobalSection
+EndGlobal

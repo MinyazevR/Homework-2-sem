@@ -40,18 +40,18 @@ public interface IUniqueList<T>
     /// Function to remove an item from the unique list
     /// </summary>
     /// <param name="index">Item position in the list</param>
-    public bool Remove(int index);
+    public bool RemoveAt(int index);
 
     /// <summary>
     /// Function to remove an item from the list
     /// </summary>
     /// <param name="value">Value to be deleted</param>
     /// <returns>was the value in the list</returns>
-    public bool RemoveAt(T value);
+    public bool Remove(T value);
 
     /// <summary>
-    /// Function for return number of element on list
+    /// Size property
     /// </summary>
     /// <returns>Number of element on list</returns>
-    public int Size();
+    public int Size { get;}
 }

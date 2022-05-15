@@ -23,9 +23,9 @@ public class UniqueList<T> : SinglyLinkedList<T>
     /// Function to remove an item from the unique list
     /// </summary>
     /// <param name="index">Item position in the list</param>
-    public override bool Remove(int index)
+    public override bool RemoveAt(int index)
     {
-        if (!base.Remove(index))
+        if (!base.RemoveAt(index))
         {
             throw new RemoveNonExistingElementException();
         }
@@ -38,9 +38,9 @@ public class UniqueList<T> : SinglyLinkedList<T>
     /// </summary>
     /// <param name="value">Value to be deleted</param>
     /// <returns>was the value in the list</returns>
-    public override bool RemoveAt(T value)
+    public override bool Remove(T value)
     {
-        if (!base.RemoveAt(value))
+        if (!base.Remove(value))
         {
             throw new RemoveNonExistingElementException();
         }

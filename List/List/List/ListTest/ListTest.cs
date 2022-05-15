@@ -16,14 +16,14 @@ public class Tests
     [Test]
     public void ShouldExpectedZeroWhenListSizeEqualZero()
     {
-        Assert.AreEqual(0, list.Size());
+        Assert.AreEqual(0, list.Size);
     }
 
     [Test]
-    public void ShouldExpectedOneWhenSizeAfterAddToEmptyList()
+    public void ShouldSizeIncrementedWhenSizeAfterAddNonExisintgElement()
     {
         list.Add(1);
-        Assert.AreEqual(1, list.Size());
+        Assert.AreEqual(1, list.Size);
     }
 
     [Test]
@@ -67,7 +67,7 @@ public class Tests
     public void ShouldExpectedFalseWhenContainsForRemovedElement()
     {
         list.Add(2);
-        list.RemoveAt(2);
+        list.Remove(2);
         Assert.AreEqual(false, list.Contains(2));
     }
 

@@ -20,7 +20,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
 
     private ListElement? head;
     private ListElement? tail;
-    private int size;
+    public int Size { get; private set; }
 
     /// <summary>
     /// Function for adding an item to a list
@@ -33,7 +33,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
             return;
         }
 
-        size++;
+        Size++;
         if (head == null || tail == null)
         {
             head = new ListElement();
@@ -53,14 +53,14 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// </summary>
     /// <param name="index">Item position in the list</param>
     /// <returns>was the item in the list</returns>
-    public virtual bool Remove(int index)
+    public virtual bool RemoveAt(int index)
     {
-        if (index >= size || index < 0)
+        if (index >= Size || index < 0)
         {
             return false;
         }
 
-        size--;
+        Size--;
         if (index == 0)
         {
             head = head?.Next;
@@ -93,16 +93,16 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// </summary>
     /// <param name="value">Value to be deleted</param>
     /// <returns>was the value in the list</returns>
-    public virtual bool RemoveAt(T value)
+    public virtual bool Remove(T value)
     {
         var copyHead = head;
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < Size; i++)
         {
             while (copyHead!= null)
             {
                 if (copyHead != null && value != null && value.Equals(copyHead.Value))
                 {
-                    Remove(i);
+                    RemoveAt(i);
                     return true;
                 }
 
@@ -120,7 +120,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// <param name="value">New value</param>
     public bool ChangeElement(int index, T value)
     {
-        if (index >= size || index < 0)
+        if (index >= Size || index < 0)
         {
             return false;
         }
@@ -180,9 +180,4 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// </summary>
     public void ClearList() => head = null;
 
-    /// <summary>
-    /// Function for return number of element on list
-    /// </summary>
-    /// <returns>Number of element on list</returns>
-    public int Size() => size;
 }

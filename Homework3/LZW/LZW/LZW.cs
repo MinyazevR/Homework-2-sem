@@ -98,16 +98,8 @@ public class LZW
 
         for (int i = 0; i < 256; i++)
         {
-            int index = 0;
             var byteArray = BitConverter.GetBytes(i);
-            for (int l = 0; l < byteArray.Length; l++)
-            {
-                if (l == 1)
-                {
-                    index = l;
-                }
-            }
-            dictionary.Add(i, byteArray[0..index]);
+            dictionary.Add(i, byteArray[0..1]);
         }
 
         int rightBorder = 0;

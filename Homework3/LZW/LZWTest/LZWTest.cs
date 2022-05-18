@@ -5,11 +5,6 @@ using System.IO;
 
 public class LZWTests
 {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public void ShouldExpectedStringAreEqualWhenLZWForFile()
         {

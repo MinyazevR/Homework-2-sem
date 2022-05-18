@@ -8,7 +8,9 @@ public class Solution
         {
             throw new FileNotFoundException();
         }
+
         string pathToFile = args[0];
+
         if (args[1] == "-c")
         {
             var file = new FileInfo(pathToFile);
@@ -21,6 +23,7 @@ public class Solution
             Console.WriteLine((float)(uncompressedFileSize) / (float)compressedFileSize);
             return;
         }
+
         if (args[1] == "-u")
         {
             LZW.DecompressFile(pathToFile);

@@ -30,9 +30,30 @@ public class BubbleSortTests
     };
 
     [TestCaseSource(nameof(IntComparatorTestData))]
-    public void ShouldExpectedSortedList(List<int> list, IComparer<int> comparator, List<int> expectedList)
+    public void ShouldExpectedSortedListForIntComparator(List<int> list, IComparer<int> comparator, List<int> expectedList)
     {
-        var newList = Sort.BubbleSort(list, comparator);
+        var newList = Sort.BubbleSort<int>(list, comparator);
+        for (int i = 0; i < newList.Count; i++)
+        {
+            if (newList[i] != expectedList[i])
+            {
+                Assert.Fail();
+            }
+        }
+    }
+
+    private static IEnumerable<TestCaseData> StringComparatorTestData() => new TestCaseData[]
+    {
+        new TestCaseData(new List<string>(){"caba", "kek", "aba"}, new StringComparator(), new List<string>(){"aba", "caba", "kek" }),
+        new TestCaseData(new List<string>(){"a"}, new StringComparator(), new List<string>(){"a"}),
+        new TestCaseData(new List<string>(){"v", "v", "v", "v", "v"}, new StringComparator(), new List<string>(){"v", "v", "v", "v", "v"}),
+        new TestCaseData(new List<string>(){"", "", "", ""}, new StringComparator(), new List<string>(){"", "", "", ""}),
+    };
+
+    [TestCaseSource(nameof(StringComparatorTestData))]
+    public void ShouldExpectedSortedListForStringComparator(List<string> list, IComparer<string> comparator, List<string> expectedList)
+    {
+        var newList = Sort.BubbleSort<string>(list, comparator);
         for (int i = 0; i < newList.Count; i++)
         {
             if (newList[i] != expectedList[i])

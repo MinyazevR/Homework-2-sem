@@ -38,9 +38,9 @@ public class Tests
         new TestCaseData(-1, new SkipList<int>(){}.IndexOf(0)),
     };
 
-    private static IEnumerable<TestCaseData> TestRemoveAtCaseData() => new TestCaseData[]
+    private static IEnumerable<TestCaseData> TestRemoveAtFunctionValueCaseData() => new TestCaseData[]
     {
-        new TestCaseData(new SkipList<int>(){2, 1, 18, 12, -123}, 2, (IList<int> list) => list.RemoveAt(2), false),
+        new TestCaseData(new SkipList<int>(){2, 1, 18, 12, -123}, 2, (IList<int> list) => list.RemoveAt(2), true),
         new TestCaseData(new SkipList<int>(){5, 1, 18, 12, -123, 5}, 5, (IList<int> list) => list.RemoveAt(2), true),
     };
 
@@ -117,7 +117,7 @@ public class Tests
     public void ShouldExpectedTrueOrFalseWhenContainsAfterRemove(SkipList<int> list, int expectedValue, Func<IList<int>, bool> func, bool answer)
     {
         func(list);
-        Assert.AreEqual(answer, func(list));
+        Assert.AreEqual(answer, list.Contains(expectedValue));
     }
 
     [TestCaseSource(nameof(TestRemoveFunctionValueCaseData))]
@@ -127,7 +127,7 @@ public class Tests
     }
 
 
-    [TestCaseSource(nameof(TestRemoveAtCaseData))]
+    [TestCaseSource(nameof(TestRemoveAtFunctionValueCaseData))]
     public void ShouldExpectedTrueOrFalseWhenContainsAfterRemoveAt(SkipList<int> list, int expectedValue, Action<IList<int>> func, bool answer)
     {
         func(list);

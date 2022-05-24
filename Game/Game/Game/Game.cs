@@ -3,9 +3,9 @@
 public class Game
 {
     private readonly Action<int, int> action;
-    private int currentPositionOnX { get; set; }
-    private int currentPositionOnY { get; set; }
-    private string[] map { get; set; }
+    private int currentPositionOnX;
+    private int currentPositionOnY;
+    private readonly string[] map;
 
     public Game(int initialPositionOnX, int initialPositionOnY, string pathToFile, Action <int, int> action)
     {
@@ -19,12 +19,12 @@ public class Game
     }
 
 
-    private void DrawCharacter()
+    private static void DrawCharacter()
     {
         Console.WriteLine("@");
     }
 
-    private void PrintMap(string[] map)
+    private static void PrintMap(string[] map)
     {
         for (int i = 0; i < map.Length; i++)
         {
@@ -47,6 +47,7 @@ public class Game
             action(currentPositionOnX, currentPositionOnY);
             return;
         }
+
         Console.Write("@");
         action(currentPositionOnX, currentPositionOnY);
         Console.WriteLine(" ");

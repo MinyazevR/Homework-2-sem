@@ -10,6 +10,7 @@ public class EventLoop
 
     public void Run()
     {
+        // Magic 68 and 4 are the coordinates of the point you need to reach in order to win
         while (Console.GetCursorPosition() != (68, 4))
         {
             var key = Console.ReadKey(true);

@@ -5,13 +5,12 @@ using ParsingTree;
 using System.IO;
 using System;
 
-
 /// <summary>
 /// A class for testing a parsing tree
 /// </summary>
-public class TestsrsingTree
+public class TestParsingTree
 {
-    ParsingTree tree = new();
+    private ParsingTree tree = new();
 
     [SetUp]
     public void Setup()
@@ -40,7 +39,7 @@ public class TestsrsingTree
     {
         string stringToConvert = "";
         tree.BuildTree(stringToConvert);
-        Assert.Throws<NullReferenceException>(() => tree.Count());
+        Assert.Throws<InvalidOperationException>(() => tree.Count());
     }
 
     [Test]

@@ -7,166 +7,175 @@ using System;
 /// </summary>
 public class ParsingTree
 {
-    /// <summary>
-    /// abstract nested class for dividing node into operators and operands for building a parse tree
-    /// </summary>
     private abstract class Node
     {
-        // Abstract method for counting each operator or operand
+        /// <summary>
+        /// Abstract method for counting each operator or operand
+        /// </summary>
+        /// <returns>Operator or operand value</returns>
         public abstract float Count();
 
-        // Abstract method for printing each operator or operand
-        public abstract void Print();
-
         /// <summary>
-        /// A class representing operands
+        /// Abstract method for printing each operator or operand
         /// </summary>
-        public class Operand : Node
+        public abstract void Print();
+    }
+
+    /// <summary>
+    /// A class representing operands
+    /// </summary>
+    private class Operand : Node
+    {
+        private readonly string Value;
+
+        public Operand(string element)
         {
-            private readonly string Value;
-            public Operand(string element)
-            {
-                Value = element;
-            }
-
-            // The operand class calculates the value for them and returns it
-            public override float Count()
-            {
-                return float.Parse(Value);
-            }
-
-            // The operand class can print the values of operands
-            public override void Print()
-            {
-                Console.Write(Value);
-                Console.Write(" ");
-            }
+            Value = element;
         }
 
         /// <summary>
-        /// A class representing operators
+        ///  The operand class calculates the value for them and returns it
         /// </summary>
-        public abstract class Operator : Node
+        /// <returns>Operand value</returns>
+        public override float Count() => float.Parse(Value);
+
+        /// <summary>
+        /// The operand class can print the values of operands
+        /// </summary>
+        public override void Print()
         {
-            // Each operator , unlike an operand, has a right and a left son
-            public Node? LeftSon;
-            public Node? RightSon;
-
-            // There will be only 4 operators, so the value field does not make sense
-
-            // Template for printing operators
-            public void OperatorPrintTemplate(string symbol)
-            {
-                Console.Write("(");
-                Console.Write(symbol);
-                LeftSon?.Print();
-                RightSon?.Print();
-                Console.Write(")");
-            }
-
-            // A class representing the operator +
-            public class Plus : Operator
-            {
-                public override float Count()
-                {
-                    if (LeftSon == null || RightSon == null)
-                    {
-                        throw new NullReferenceException();
-                    }
-
-                    return LeftSon.Count() + RightSon.Count();
-                }
-
-                public override void Print()
-                {
-                    if (LeftSon == null || RightSon == null)
-                    {
-                        return;
-                    }
-
-                    OperatorPrintTemplate("+");
-                }
-            }
-
-            // A class representing the operator -
-            public class Minus : Operator
-            {
-                public override float Count()
-                {
-                    if (LeftSon == null || RightSon == null)
-                    {
-                        throw new NullReferenceException();
-                    }
-
-                    return LeftSon.Count() - RightSon.Count();
-                }
-
-                public override void Print()
-                {
-                    if (LeftSon == null || RightSon == null)
-                    {
-                        return;
-                    }
-
-                    OperatorPrintTemplate("-");
-                }
-            }
-
-            // A class representing the operator /
-            public class Divide : Operator
-            {
-                public override float Count()
-                {
-                    if (LeftSon == null || RightSon == null)
-                    {
-                        throw new NullReferenceException();
-                    }
-
-                    float rightSonValue = RightSon.Count();
-                    if (Math.Abs(rightSonValue - 0) < 0.0000000000000000000000000001)
-                    {
-                        throw new DivideByZeroException();
-                    }
-
-                    return LeftSon.Count() / rightSonValue;
-                }
-
-                public override void Print()
-                {
-                    if (LeftSon == null || RightSon == null)
-                    {
-                        return;
-                    }
-
-                    OperatorPrintTemplate("/");
-                }
-            }
-
-            // A class representing the operator *
-            public class Multiplication : Operator
-            {
-                public override float Count()
-                {
-                    if (LeftSon == null || RightSon == null)
-                    {
-                        throw new NullReferenceException();
-                    }
-                    return LeftSon.Count() * RightSon.Count();
-                }
-
-                public override void Print()
-                {
-                    if (LeftSon == null || RightSon == null)
-                    {
-                        return;
-                    }
-                    OperatorPrintTemplate("*");
-                }
-            }
+            Console.Write(Value);
+            Console.Write(" ");
         }
     }
 
-    Node? treeRoot;
+    /// <summary>
+    /// A class representing operators
+    /// </summary>
+    private abstract class Operator : Node
+    {
+        public Node? LeftSon;
+        public Node? RightSon;
+
+
+        /// <summary>
+        /// Void for printing operators
+        /// </summary>
+        public abstract void Symbol();
+
+        public override void Print()
+        {
+            Symbol();
+        }
+    }
+
+    /// <summary>
+    /// A class representing the operator +
+    /// </summary>
+    private class Plus : Operator
+    {
+        public override float Count()
+        {
+            if (LeftSon == null || RightSon == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return LeftSon.Count() + RightSon.Count();
+        }
+
+        public override void Symbol()
+        {
+            Console.Write("(");
+            Console.Write("+");
+            LeftSon?.Print();
+            RightSon?.Print();
+            Console.Write(")");
+        }
+    }
+
+    /// <summary>
+    /// A class representing the operator -
+    /// </summary>
+    private class Minus : Operator
+    {
+        public override float Count()
+        {
+            // But if we consider the input file to be correct, then such a situation should not arise
+            if (LeftSon == null || RightSon == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            return LeftSon.Count() - RightSon.Count();
+        }
+
+        public override void Symbol()
+        {
+            Console.Write("(");
+            Console.Write("-");
+            LeftSon?.Print();
+            RightSon?.Print();
+            Console.Write(")");
+        }
+    }
+
+    /// <summary>
+    /// A class representing the operator /
+    /// </summary>
+    private class Divide : Operator
+    {
+        public override float Count()
+        {
+            if (LeftSon == null || RightSon == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            float rightSonValue = RightSon.Count();
+            if (Math.Abs(rightSonValue - 0) < 0.0000000000000000000000000001)
+            {
+                throw new DivideByZeroException();
+            }
+
+            return LeftSon.Count() / rightSonValue;
+        }
+
+        public override void Symbol()
+        {
+            Console.Write("(");
+            Console.Write("/");
+            LeftSon?.Print();
+            RightSon?.Print();
+            Console.Write(")");
+        }
+    }
+
+    /// <summary>
+    /// A class representing the operator *
+    /// </summary>
+    private class Multiplication : Operator
+    {
+        public override float Count()
+        {
+            if (LeftSon == null || RightSon == null)
+            {
+                throw new InvalidOperationException();
+            }
+            return LeftSon.Count() * RightSon.Count();
+        }
+
+        public override void Symbol()
+        {
+            Console.Write("(");
+            Console.Write("");
+            LeftSon?.Print();
+            RightSon?.Print();
+            Console.Write(")");
+        }
+    }
+
+    private Node? treeRoot;
 
     /// <summary>
     /// Function for building a tree
@@ -179,7 +188,9 @@ public class ParsingTree
         treeRoot = PrivateBuildTree(expression, ref index, node);
     }
 
-    // Auxiliary function for building a tree
+    /// <summary>
+    /// Auxiliary function for building a tree
+    /// </summary>
     private Node? PrivateBuildTree(string expression, ref int index, Node? node)
     {
         if (index >= expression.Length)
@@ -210,10 +221,11 @@ public class ParsingTree
         }
         Node? newNode = null;
 
-        //This unused variable x is needed in order to call the function,
-        //and it is the operand that is initialized,
-        //because the last character of the number cannot be an operator (the file is considered correct
+        // This unused variable x is needed in order to call the function,
+        // And it is the operand that is initialized,
+        // Because the last character of the number cannot be an operator (the file is considered correct
         int x = nodeValue.Length - 1;
+
         if (expression[index] == '-')
         {
             InitializeNode("-" + nodeValue, ref x, ref newNode);
@@ -222,55 +234,59 @@ public class ParsingTree
         {
             InitializeNode(nodeValue, ref x, ref newNode);
         }
+
         index = newIndex;
         return newNode;
     }
 
-    // A function for initializing nodes depending on which operator or operator is a string
+    /// <summary>
+    /// A function for initializing nodes depending on which operator or operator is a string
+    /// </summary>
     private void InitializeNode(string expression, ref int index, ref Node? node)
     {
         switch (expression[index])
         {
             case '+':
-            {
-                node = new Node.Operator.Plus();
-                index++;
-                ((Node.Operator.Plus)node).LeftSon = PrivateBuildTree(expression, ref index, ((Node.Operator.Plus)node).LeftSon);
-                ((Node.Operator.Plus)node).RightSon = PrivateBuildTree(expression, ref index, ((Node.Operator.Plus)node).RightSon);
-                return;
-            }
+                {
+                    node = new Plus();
+                    index++;
+                    ((Plus)node).LeftSon = PrivateBuildTree(expression, ref index, ((Plus)node).LeftSon);
+                    ((Plus)node).RightSon = PrivateBuildTree(expression, ref index, ((Plus)node).RightSon);
+                    return;
+                }
             case '-':
-            {
-                node = new Node.Operator.Minus();
-                index++;
-                ((Node.Operator.Minus)node).LeftSon = PrivateBuildTree(expression, ref index, ((Node.Operator.Minus)node).LeftSon);
-                ((Node.Operator.Minus)node).RightSon = PrivateBuildTree(expression, ref index, ((Node.Operator.Minus)node).RightSon);
-                return;
-            }
+                {
+                    node = new Minus();
+                    index++;
+                    ((Minus)node).LeftSon = PrivateBuildTree(expression, ref index, ((Minus)node).LeftSon);
+                    ((Minus)node).RightSon = PrivateBuildTree(expression, ref index, ((Minus)node).RightSon);
+                    return;
+                }
             case '*':
-            {
-                node = new Node.Operator.Multiplication();
-                index++;
-                ((Node.Operator.Multiplication)node).LeftSon = PrivateBuildTree(expression, ref index, ((Node.Operator.Multiplication)node).LeftSon);
-                ((Node.Operator.Multiplication)node).RightSon = PrivateBuildTree(expression, ref index, ((Node.Operator.Multiplication)node).RightSon);
-                return;
-            }
+                {
+                    node = new Multiplication();
+                    index++;
+                    ((Multiplication)node).LeftSon = PrivateBuildTree(expression, ref index, ((Multiplication)node).LeftSon);
+                    ((Multiplication)node).RightSon = PrivateBuildTree(expression, ref index, ((Multiplication)node).RightSon);
+                    return;
+                }
             case '/':
-            {
-                node = new Node.Operator.Divide();
-                index++;
-                ((Node.Operator.Divide)node).LeftSon = PrivateBuildTree(expression, ref index, ((Node.Operator.Divide)node).LeftSon);
-                ((Node.Operator.Divide)node).RightSon = PrivateBuildTree(expression, ref index, ((Node.Operator.Divide)node).RightSon);
-                return;
-            }
+                {
+                    node = new Divide();
+                    index++;
+                    ((Divide)node).LeftSon = PrivateBuildTree(expression, ref index, ((Divide)node).LeftSon);
+                    ((Divide)node).RightSon = PrivateBuildTree(expression, ref index, ((Divide)node).RightSon);
+                    return;
+                }
             default:
-            {
-                node = new Node.Operand(expression);
-                index++;
-                return;
-            }
+                {
+                    node = new Operand(expression);
+                    index++;
+                    return;
+                }
         }
     }
+
 
     /// <summary>
     /// Function for printing a tree
@@ -285,8 +301,9 @@ public class ParsingTree
     {
         if (treeRoot == null)
         {
-            throw new NullReferenceException();
+            throw new InvalidOperationException();
         }
+
         return treeRoot.Count();
     }
 

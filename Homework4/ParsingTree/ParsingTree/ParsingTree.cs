@@ -58,14 +58,15 @@ public class ParsingTree
         public Node? RightSon;
 
 
-        /// <summary>
-        /// Void for printing operators
-        /// </summary>
-        public abstract void Symbol();
+        public abstract char Symbol { get; set; }
 
         public override void Print()
         {
-            Symbol();
+            Console.Write("(");
+            Console.Write(Symbol);
+            LeftSon?.Print();
+            RightSon?.Print();
+            Console.Write(")");
         }
     }
 
@@ -74,6 +75,11 @@ public class ParsingTree
     /// </summary>
     private class Plus : Operator
     {
+        public Plus()
+        {
+            Symbol = '+';
+        }
+
         public override float Count()
         {
             if (LeftSon == null || RightSon == null)
@@ -84,14 +90,7 @@ public class ParsingTree
             return LeftSon.Count() + RightSon.Count();
         }
 
-        public override void Symbol()
-        {
-            Console.Write("(");
-            Console.Write("+");
-            LeftSon?.Print();
-            RightSon?.Print();
-            Console.Write(")");
-        }
+        public override char Symbol { get; set; }
     }
 
     /// <summary>
@@ -99,6 +98,11 @@ public class ParsingTree
     /// </summary>
     private class Minus : Operator
     {
+        public Minus()
+        {
+            Symbol = '-';
+        }
+
         public override float Count()
         {
             // But if we consider the input file to be correct, then such a situation should not arise
@@ -110,14 +114,7 @@ public class ParsingTree
             return LeftSon.Count() - RightSon.Count();
         }
 
-        public override void Symbol()
-        {
-            Console.Write("(");
-            Console.Write("-");
-            LeftSon?.Print();
-            RightSon?.Print();
-            Console.Write(")");
-        }
+        public override char Symbol { get; set; }
     }
 
     /// <summary>
@@ -125,6 +122,11 @@ public class ParsingTree
     /// </summary>
     private class Divide : Operator
     {
+        public Divide()
+        {
+            Symbol = '/';
+        }
+
         public override float Count()
         {
             if (LeftSon == null || RightSon == null)
@@ -141,14 +143,7 @@ public class ParsingTree
             return LeftSon.Count() / rightSonValue;
         }
 
-        public override void Symbol()
-        {
-            Console.Write("(");
-            Console.Write("/");
-            LeftSon?.Print();
-            RightSon?.Print();
-            Console.Write(")");
-        }
+        public override char Symbol { get; set; }
     }
 
     /// <summary>
@@ -156,6 +151,11 @@ public class ParsingTree
     /// </summary>
     private class Multiplication : Operator
     {
+        public Multiplication()
+        {
+            Symbol = '*';
+        }
+
         public override float Count()
         {
             if (LeftSon == null || RightSon == null)
@@ -165,14 +165,7 @@ public class ParsingTree
             return LeftSon.Count() * RightSon.Count();
         }
 
-        public override void Symbol()
-        {
-            Console.Write("(");
-            Console.Write("");
-            LeftSon?.Print();
-            RightSon?.Print();
-            Console.Write(")");
-        }
+        public override char Symbol { get; set; }
     }
 
     private Node? treeRoot;

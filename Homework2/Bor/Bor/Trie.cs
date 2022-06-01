@@ -1,26 +1,34 @@
-﻿﻿namespace Bor;
+﻿﻿namespace Trie;
 
 /// <summary>
-/// A class representing the bor data structure
+/// A class representing the Trie
 /// </summary>
-public class Bor
+public class Trie
 {
     /// <summary>
-    /// // A class representing the bor data structure
+    /// A class representing Trie node
     /// </summary>
     private class Node
     {
-        // Dictionary for storing characters for each node
+        /// <summary>
+        /// Dictionary for storing characters for each node
+        /// </summary>
         public Dictionary<char, Node> Nodes = new();
 
-        // Node property - whether it is the end of a string
+        /// <summary>
+        /// Node property - whether it is the end of a string
+        /// </summary>
         public bool IsTerminal { get; set; }
     }
 
-    // Bor root
+    /// <summary>
+    /// Trie root
+    /// </summary>
     private readonly Node root = new();
 
-    // Bor size
+    /// <summary>
+    /// Trie size
+    /// </summary>
     public int Size { get; private set; }
 
     /// <summary>
@@ -59,7 +67,7 @@ public class Bor
     }
 
     /// <summary>
-    /// Is the string contained in the Bor
+    /// Is the string contained in the Trie
     /// </summary>
     /// <param name="element"> Element to search </param>
     /// <returns> True if there is such a string. False if there is no such string </returns>
@@ -107,14 +115,16 @@ public class Bor
         return node.IsTerminal ? 1 + node.Nodes.Count : node.Nodes.Count;
     }
 
-    // Function for clearing dictionaries
+    /// <summary>
+    /// Function for clearing dictionaries
+    /// </summary>
     static private void ClearDictionaryAndNode(Node node)
     {
         node.Nodes.Clear();
     }
 
     /// <summary>
-    /// Function for deleting string from a Bor
+    /// Function for deleting string from a Trie
     /// </summary>
     /// <param name="element"> Element to delete </param>
     /// <returns> as there an element string before calling Remove </returns>
@@ -127,7 +137,7 @@ public class Bor
 
         int index = 0;
         Node node = root;
-        Node? anotherNode = null;
+        Node? parent = null;
         for (int i = 0; i < element.Length; i++)
         {
             if (node != null)
@@ -136,9 +146,9 @@ public class Bor
 
                 if (node.Nodes.Count == 0 && i == element.Length - 1)
                 {
-                    if (anotherNode != null)
+                    if (parent != null)
                     {
-                        ClearDictionaryAndNode(anotherNode);
+                        ClearDictionaryAndNode(parent);
                         Size -= i - index;
                         return true;
                     }
@@ -160,10 +170,11 @@ public class Bor
             if (node != null && node.IsTerminal)
             {
                 index = i;
-                anotherNode = node;
+                parent = node;
             }
 
         }
+
         return true;
     }
 }

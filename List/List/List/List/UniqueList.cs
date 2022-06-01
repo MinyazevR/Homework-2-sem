@@ -60,7 +60,7 @@ public class UniqueList<T> : SinglyLinkedList<T> where T : IComparable<T>
             return false;
         }
 
-        if (GetItemByIndex(index).CompareTo(value) == 0)
+        if (base.GetItemByIndex(index).CompareTo(value) == 0)
         {
             return true;
         }
@@ -70,7 +70,7 @@ public class UniqueList<T> : SinglyLinkedList<T> where T : IComparable<T>
             throw new InvalidOperationException();
         }
 
-        ChangeElement(index, value);
+        base.ChangeElement(index, value);
         return true;
     }
 }

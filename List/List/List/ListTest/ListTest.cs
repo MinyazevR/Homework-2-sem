@@ -6,7 +6,7 @@ using System;
 
 public class Tests
 {
-    private UniqueList<int> list = new UniqueList<int>();
+    private UniqueList<int> list = new();
 
     [SetUp]
     public void Setup()

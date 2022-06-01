@@ -1,9 +1,6 @@
 ﻿namespace List;
 
 /// <summary>
-/// A class for creating custom exceptions
+/// Exception for the case of deleting a non-existent element
 /// </summary>
-public class RemoveNonExistingElementException : Exception
-{
-    public RemoveNonExistingElementException() : base() { }
-}
+public class RemoveNonExistingElementException : InvalidOperationException{ }

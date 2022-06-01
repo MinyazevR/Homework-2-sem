@@ -1,9 +1,6 @@
 ﻿namespace List;
 
 /// <summary>
-/// A class for creating custom exceptions
+/// Exception for the case of adding an existing element
 /// </summary>
-public class RepeatValueException : Exception
-{
-    public RepeatValueException() : base() { }
-}
+public class RepeatValueException : InvalidOperationException{ }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// Сlass representing a list
 /// </summary>
 /// <typeparam name="T"> type of item values in the list </typeparam>
-abstract public class SinglyLinkedList<T> : IUniqueList<T>
+public class SinglyLinkedList<T> where T : IComparable<T>
 {
     /// <summary>
     /// Class for storing list items
@@ -20,6 +20,10 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
 
     private ListElement? head;
     private ListElement? tail;
+
+    /// <summary>
+    /// List size
+    /// </summary>
     public int Size { get; private set; }
 
     /// <summary>
@@ -42,7 +46,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
             return;
         }
 
-        var newTail = new ListElement(){};
+        var newTail = new ListElement();
         newTail.Value = value;
         tail.Next = newTail;
         tail = newTail;
@@ -68,7 +72,8 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
         }
 
         var element = head;
-        var copyElement = new ListElement();
+        ListElement? copyElement = null;
+
         for (int i = 0; i < index - 1; i++)
         {
             if (i == index - 1)
@@ -118,7 +123,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// </summary>
     /// <param name="index">Item position in the list</param>
     /// <param name="value">New value</param>
-    public bool ChangeElement(int index, T value)
+    public virtual bool ChangeElement(int index, T value)
     {
         if (index >= Size || index < 0)
         {
@@ -155,7 +160,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     }
 
     /// <summary>
-    /// Аunction to search for an item in the list
+    /// Function to search for an item in the list
     /// </summary>
     /// <param name="value">Search value</param>
     /// <returns>Is there an item in the list</returns>
@@ -164,7 +169,7 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
         var element = head;
         while (element != null)
         {
-            if (value != null && value.Equals(element.Value))
+            if (value != null && value.CompareTo(element.Value) == 0)
             {
                 return true;
             }
@@ -179,5 +184,21 @@ abstract public class SinglyLinkedList<T> : IUniqueList<T>
     /// Function for clear list
     /// </summary>
     public void ClearList() => head = null;
+
+    public T GetItemByIndex(int index)
+    {
+        if (index >= Size || index < 0)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+
+        ListElement? element = head;
+        for (int i = 0; i < index; i++)
+        {
+            element = element?.Next;
+        }
+
+        return element!.Value!;
+    }
 
 }

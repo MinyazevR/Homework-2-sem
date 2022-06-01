@@ -3,7 +3,7 @@
 /// <summary>
 /// Class representing a list of unique values
 /// </summary>
-public class UniqueList<T> : SinglyLinkedList<T>
+public class UniqueList<T> : SinglyLinkedList<T> where T : IComparable<T>
 {
     /// <summary>
     /// Function for adding an item to a list
@@ -46,5 +46,31 @@ public class UniqueList<T> : SinglyLinkedList<T>
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Function for changing the value of an element by index
+    /// </summary>
+    /// <param name="index">Item position in the list</param>
+    /// <param name="value">New value</param>
+    public override bool ChangeElement(int index, T value)
+    {
+        if (index >= Size || index < 0)
+        {
+            return false;
+        }
+
+        if (GetItemByIndex(index).CompareTo(value) == 0)
+        {
+            return true;
+        }
+
+        if (Contains(value))
+        {
+            throw new InvalidOperationException();
+        }
+
+        ChangeElement(index, value);
+        return true;
     }
 }

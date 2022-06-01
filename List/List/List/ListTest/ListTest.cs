@@ -2,10 +2,11 @@ namespace ListTest;
 
 using NUnit.Framework;
 using List;
+using System;
 
 public class Tests
 {
-    IUniqueList<int> list = new UniqueList<int>();
+    private UniqueList<int> list = new UniqueList<int>();
 
     [SetUp]
     public void Setup()
@@ -47,6 +48,14 @@ public class Tests
     {
         list.Add(1);
         Assert.Throws<RepeatValueException>(() => list.Add(1));
+    }
+
+    [Test]
+    public void ShouldThrowsInvalidOperationExceptionWhenChandeElementWithExistingOne()
+    {
+        list.Add(1);
+        list.Add(2);
+        Assert.Throws<InvalidOperationException>(() => list.ChangeElement(0, 2));
     }
 
     [Test]

@@ -5,15 +5,39 @@ using System.IO;
 
 public class LZWTests
 {
-        [Test]
-        public void ShouldExpectedStringAreEqualWhenLZWForFile()
-        {
-            string filename = "..//..//..//Test.txt";
-            LZW.LZW.CompressFile(filename);
-            string newFilename = "..//..//..//Test.zipped";
-            LZW.LZW.DecompressFile(newFilename);
-            var firstString = File.ReadAllBytes(filename);
-            var secondString = File.ReadAllBytes("..//..//..//Test");
-            Assert.AreEqual(firstString, secondString);
-        }
+    [Test]
+    public void ShouldExpectedDecompressedFileAreEqualInitialFileWhenCompressAndDecompressForTxtFile()
+    {
+        string filename = "..//..//..//Test.txt";
+        LZW.LZW.CompressFile(filename);
+        string newFilename = "..//..//..//Test.txt.zipped";
+        LZW.LZW.DecompressFile(newFilename);
+        var firstString = File.ReadAllBytes(filename);
+        var secondString = File.ReadAllBytes("..//..//..//DecompressedTest.txt");
+        Assert.AreEqual(firstString, secondString);
+    }
+
+    [Test]
+    public void ShouldExpectedDecompressedFileAreEqualInitialFileWhenCompressAndDecompressForExeFile()
+    {
+        string filename = "..//..//..//LZW.exe";
+        LZW.LZW.CompressFile(filename);
+        string newFilename = "..//..//..//LZW.exe.zipped";
+        LZW.LZW.DecompressFile(newFilename);
+        var firstString = File.ReadAllBytes(filename);
+        var secondString = File.ReadAllBytes("..//..//..//DecompressedLZW.exe");
+        Assert.AreEqual(firstString, secondString);
+    }
+
+    [Test]
+    public void ShouldExpectedDecompressedFileAreEqualInitialFileWhenCompressAndDecompressForEmptyFile()
+    {
+        string filename = "..//..//..//SecondTest.txt";
+        LZW.LZW.CompressFile(filename);
+        string newFilename = "..//..//..//SecondTest.txt.zipped";
+        LZW.LZW.DecompressFile(newFilename);
+        var firstString = File.ReadAllBytes(filename);
+        var secondString = File.ReadAllBytes("..//..//..//DecompressedSecondTest.txt");
+        Assert.AreEqual(firstString, secondString);
+    }
 }

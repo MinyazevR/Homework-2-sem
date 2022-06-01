@@ -1,12 +1,12 @@
 ﻿namespace Test;
 
 using NUnit.Framework;
-using Bor;
+using Trie;
 using System;
 
-public class BorTest
+public class TrieTest
 {
-    Bor bor = new();
+    Trie bor = new();
 
     [SetUp]
     public void Setup()

@@ -1,36 +1,48 @@
-﻿namespace Bor;
+﻿namespace Trie;
 
 /// <summary>
 /// A class representing the bor data structure
 /// </summary>
-public class Bor
+public class Trie
 {
     /// <summary>
     /// // A class representing the bor data structure
     /// </summary>
     private class Node
     {
-        // Dictionary for storing characters for each node
+        /// <summary>
+        /// Dictionary for storing characters for each node
+        /// </summary>
         public Dictionary<byte, Node> Nodes = new();
 
-        // Code for each node
+        /// <summary>
+        /// Code for each node
+        /// </summary>
         public int Code { get; set;}
     }
 
-    // Bor root
+    /// <summary>
+    /// Bor root
+    /// </summary>
     private readonly Node root = new();
 
-    // Bor size
+    /// <summary>
+    /// Bor size
+    /// </summary>
     public int Size { get; private set; }
 
     private Node currentNode;
 
-    public int GetCode()
-    {
-        return currentNode.Code;
-    }
+    /// <summary>
+    /// Function for getting the code of the current element
+    /// </summary>
+    /// <returns></returns>
+    public int GetCode() => currentNode.Code;
 
-    public Bor()
+    /// <summary>
+    /// Trie constructor
+    /// </summary>
+    public Trie()
     {
         root.Code = -1;
 
@@ -50,7 +62,7 @@ public class Bor
     /// <summary>
     /// Function to add a byte
     /// </summary>
-    /// <param name="byteToAdd"> byte to add </param>
+    /// <param name="byteToAdd"> Byte to add </param>
     public void Add(byte byteToAdd)
     {
         Node node = new();

@@ -2,14 +2,16 @@
 
 using System;
 using System.IO;
-using Bor;
+using Trie;
 
 /// <summary>
 /// A class representing the LZW algorithm
 /// </summary>
 public class LZW
 {
-    //A function for determining the number of bytes needed to store a number
+    /// <summary>
+    /// A function for determining the number of bytes needed to store a number
+    /// </summary>
     private static int NumberOfBytes(int number)
     {
         if (number < 256)
@@ -33,18 +35,22 @@ public class LZW
     /// <param name="pathToFileToCompress">The path to the file to compress</param>
     public static void CompressFile(string pathToFileToCompress)
     {
-        
-        string fileName = Path.GetFileNameWithoutExtension(pathToFileToCompress);
-        fileName = $"{pathToFileToCompress}..//..//{fileName}.zipped";
-
         // Name of the compressed file
+        string fileName = $"{pathToFileToCompress}.zipped";
+
+        // Create file
         using FileStream fs = new(fileName, FileMode.Create);
 
         // Reading all bytes from a file
         var stringToConvert = File.ReadAllBytes(pathToFileToCompress);
 
         // Creating bor
-        Bor bor = new();
+        Trie bor = new();
+
+        if (stringToConvert.Length == 0)
+        {
+            return;
+        }
 
         for (int i = 0; i < stringToConvert.Length; i++)
         {
@@ -81,11 +87,17 @@ public class LZW
         fs.Write(newbytes);
     }
 
+    /// <summary>
+    /// Function for file decompression
+    /// </summary>
+    /// <param name="pathToFile">The path to the file to decompress</param>
     public static void DecompressFile(string pathToFile)
     {
+        var currentDirectoryName = Path.GetDirectoryName(pathToFile);
+        var fileName = Path.GetFileName(pathToFile);
 
-        string fileName = Path.GetFileNameWithoutExtension(pathToFile);
-        fileName = $"{pathToFile}..//..//{fileName}";
+        // 7 = .zipped.length
+        fileName = $"{currentDirectoryName}//Decompressed{fileName[0..(fileName.Length - 7)]}";
 
         // Create file
         using FileStream fs = new(fileName, FileMode.Create);
@@ -114,7 +126,6 @@ public class LZW
             // If the right border has gone beyond the edge, then we will make it the last byte
             rightBorder = rightBorder > stringToConvert.Length - 1 ? stringToConvert.Length - 1 : rightBorder;
 
-            
             if (leftBorder > stringToConvert.Length - 1)
             {
                 break;

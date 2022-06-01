@@ -1,34 +1,26 @@
-﻿﻿namespace Trie;
+﻿﻿namespace Bor;
 
 /// <summary>
-/// A class representing the Trie
+/// A class representing the bor data structure
 /// </summary>
-public class Trie
+public class Bor
 {
     /// <summary>
-    /// A class representing Trie node
+    /// // A class representing the bor data structure
     /// </summary>
     private class Node
     {
-        /// <summary>
-        /// Dictionary for storing characters for each node
-        /// </summary>
+        // Dictionary for storing characters for each node
         public Dictionary<char, Node> Nodes = new();
 
-        /// <summary>
-        /// Node property - whether it is the end of a string
-        /// </summary>
+        // Node property - whether it is the end of a string
         public bool IsTerminal { get; set; }
     }
 
-    /// <summary>
-    /// Trie root
-    /// </summary>
+    // Bor root
     private readonly Node root = new();
 
-    /// <summary>
-    /// Trie size
-    /// </summary>
+    // Bor size
     public int Size { get; private set; }
 
     /// <summary>
@@ -67,7 +59,7 @@ public class Trie
     }
 
     /// <summary>
-    /// Is the string contained in the Trie
+    /// Is the string contained in the Bor
     /// </summary>
     /// <param name="element"> Element to search </param>
     /// <returns> True if there is such a string. False if there is no such string </returns>
@@ -115,16 +107,14 @@ public class Trie
         return node.IsTerminal ? 1 + node.Nodes.Count : node.Nodes.Count;
     }
 
-    /// <summary>
-    /// Function for clearing dictionaries
-    /// </summary>
+    // Function for clearing dictionaries
     static private void ClearDictionaryAndNode(Node node)
     {
         node.Nodes.Clear();
     }
 
     /// <summary>
-    /// Function for deleting string from a Trie
+    /// Function for deleting string from a Bor
     /// </summary>
     /// <param name="element"> Element to delete </param>
     /// <returns> as there an element string before calling Remove </returns>
@@ -137,7 +127,7 @@ public class Trie
 
         int index = 0;
         Node node = root;
-        Node? parent = null;
+        Node? anotherNode = null;
         for (int i = 0; i < element.Length; i++)
         {
             if (node != null)
@@ -146,9 +136,9 @@ public class Trie
 
                 if (node.Nodes.Count == 0 && i == element.Length - 1)
                 {
-                    if (parent != null)
+                    if (anotherNode != null)
                     {
-                        ClearDictionaryAndNode(parent);
+                        ClearDictionaryAndNode(anotherNode);
                         Size -= i - index;
                         return true;
                     }
@@ -170,11 +160,10 @@ public class Trie
             if (node != null && node.IsTerminal)
             {
                 index = i;
-                parent = node;
+                anotherNode = node;
             }
 
         }
-
         return true;
     }
 }

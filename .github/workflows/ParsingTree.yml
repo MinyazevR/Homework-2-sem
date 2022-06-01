@@ -6,6 +6,7 @@ jobs:
   build-Windows:
 
     runs-on: windows-latest
+
     - name: Test
       run: $slnList = Get-ChildItem $foo.FullName -Recurse -Filter '*.sln'; foreach ($file in $slnList) {dotnet test $file.FullName}
 

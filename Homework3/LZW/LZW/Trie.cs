@@ -1,12 +1,12 @@
 ﻿namespace Trie;
 
 /// <summary>
-/// A class representing the bor data structure
+/// A class representing the Trie
 /// </summary>
 public class Trie
 {
     /// <summary>
-    /// // A class representing the bor data structure
+    /// A class representing the Trie node
     /// </summary>
     private class Node
     {
@@ -22,12 +22,12 @@ public class Trie
     }
 
     /// <summary>
-    /// Bor root
+    /// Trie root
     /// </summary>
     private readonly Node root = new();
 
     /// <summary>
-    /// Bor size
+    /// Trie size
     /// </summary>
     public int Size { get; private set; }
 
@@ -36,7 +36,7 @@ public class Trie
     /// <summary>
     /// Function for getting the code of the current element
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Code</returns>
     public int GetCode() => currentNode.Code;
 
     /// <summary>
@@ -73,7 +73,7 @@ public class Trie
     }
 
     /// <summary>
-    /// Is the byte contained in Current Node
+    /// Is the byte contained in Current node
     /// </summary>
     /// <param name="element"> Element to search </param>
     /// <returns> True if there is such a byte. False if there is no such byte </returns>

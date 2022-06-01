@@ -60,18 +60,19 @@ public class LZW
                 // Moving on to the next byte
                 bor.MoveIntoDesiredNode(stringToConvert[i]);
             }
+
             // Otherwise, we add it to the bor
             else
             {
                 // Taking the idex from the parent vertex and encode it
                 var bytes = BitConverter.GetBytes(bor.GetCode());
 
-                // Cut off the extra bytes
-                // The required number of bytes is selected according to the size of the bor
-                // Since among the numbers that need to be encoded there may be a bor size (index of the maximum vertex),
-                // the number of bytes to store depends on the size of the bor.
-                // Even a number requires fewer bytes,
-                // it is written in a large number of bytes so that it can be decoded later.
+                /* Cut off the extra bytes
+                    The required number of bytes is selected according to the size of the bor
+                    Since among the numbers that need to be encoded there may be a bor size (index of the maximum vertex),
+                    the number of bytes to store depends on the size of the bor.
+                    Even a number requires fewer bytes,
+                    it is written in a large number of bytes so that it can be decoded later. */
                 Array.Resize(ref bytes, NumberOfBytes(bor.Size - 1));
                 bor.Add(stringToConvert[i]);
                 fs.Write(bytes);

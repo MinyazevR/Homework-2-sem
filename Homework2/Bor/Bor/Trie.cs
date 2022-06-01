@@ -138,7 +138,7 @@ public class Trie
 
         int index = 0;
         Node node = root;
-        Node? anotherNode = null;
+        Node? parent = null;
         for (int i = 0; i < element.Length; i++)
         {
             if (node != null)
@@ -147,9 +147,9 @@ public class Trie
 
                 if (node.Nodes.Count == 0 && i == element.Length - 1)
                 {
-                    if (anotherNode != null)
+                    if (parent != null)
                     {
-                        ClearDictionaryAndNode(anotherNode);
+                        ClearDictionaryAndNode(parent);
                         Size -= i - index;
                         return true;
                     }
@@ -171,7 +171,7 @@ public class Trie
             if (node != null && node.IsTerminal)
             {
                 index = i;
-                anotherNode = node;
+                parent = node;
             }
         }
 

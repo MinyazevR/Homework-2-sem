@@ -40,7 +40,7 @@ public class Tests
 
     private static IEnumerable<TestCaseData> TestRemoveAtFunctionValueCaseData() => new TestCaseData[]
     {
-        new TestCaseData(new SkipList<int>(){2, 1, 18, 12, -123}, 2, (IList<int> list) => list.RemoveAt(2), true),
+        new TestCaseData(new SkipList<int>(){2, 1, 18, 12, -123}, 2, (IList<int> list) => list.RemoveAt(2), false),
         new TestCaseData(new SkipList<int>(){5, 1, 18, 12, -123, 5}, 5, (IList<int> list) => list.RemoveAt(2), true),
     };
 

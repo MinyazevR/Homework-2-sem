@@ -1,5 +1,8 @@
 ﻿namespace Calculator;
 
+/// <summary>
+/// Class representing Calculator
+/// </summary>
 public class Calculator
 {
     private string? FirstOperand { get; set; }
@@ -12,6 +15,11 @@ public class Calculator
 
     public string? Text { get; private set; }
 
+    /// <summary>
+    /// Is the string an operetor
+    /// </summary>
+    /// <param name="text">Input string</param>
+    /// <returns>True if the string is an operator</returns>
     public static bool IsOperator(string text) => text == "/" || text == "*" || text == "-" || text == "+" || text == "±" || text == "=" || text == "√" || text == "C" || text == "⌫";
 
     public string? CalculateExpression(string[] expression)
@@ -26,6 +34,10 @@ public class Calculator
         return FirstOperand;
     }
 
+    /// <summary>
+    /// A function for calculating an expression of the form operator operand operator
+    /// </summary>
+    /// <returns>The resulting value</returns>
     public string? GetValue()
     {
         if (FirstOperand == null || SecondOperand == null)
@@ -72,6 +84,10 @@ public class Calculator
         return FirstOperand;
     }
 
+    /// <summary>
+    /// Function for initializing an operator or operand
+    /// </summary>
+    /// <param name="text"></param>
     public bool AddOperatorOrOperand(string text)
     {
         if (text == "")

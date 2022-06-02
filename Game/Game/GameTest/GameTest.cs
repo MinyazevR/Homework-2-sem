@@ -14,7 +14,9 @@ public class Tests
         game = new Game.Game(2, 9, "..//..//..//..//Game//Game.txt", (x, y) => { });
     }
 
-    // It is known in advance that there is no wall on the left in the position
+    /// <summary>
+    /// It is known in advance that there is no wall on the left in the position
+    /// </summary>
     [Test]
     public void ShouldPlayerPositionOnXEqualPreviousPositionOnXMinus1WhenOnLeft()
     {
@@ -25,7 +27,9 @@ public class Tests
         Assert.AreEqual(t, y);
     }
 
-    // It is known in advance that there is no wall on the right in the position
+    /// <summary>
+    /// It is known in advance that there is no wall on the right in the position
+    /// </summary>
     [Test]
     public void ShouldPlayerPositionOnXEqualPreviousPositionOnXPlus1WhenOnRight()
     {
@@ -36,7 +40,9 @@ public class Tests
         Assert.AreEqual(t, y);
     }
 
-    // It is known in advance that there is no wall on the up in the position
+    /// <summary>
+    /// It is known in advance that there is no wall on the up in the position
+    /// </summary>
     [Test]
     public void ShouldPlayerPositionOnYEqualPreviousPositionOnYMinus1WhenUp()
     {
@@ -52,7 +58,9 @@ public class Tests
         Assert.AreEqual(t, y - 1);
     }
 
-    // It is known in advance that there is no wall on the down in the position
+    /// <summary>
+    /// It is known in advance that there is no wall on the down in the position
+    /// </summary>
     [Test]
     public void ShouldPlayerPositionOnYEqualPreviousPositionOnYPlus1WhenDown()
     {
@@ -70,7 +78,9 @@ public class Tests
     }
 
 
-    // It is known in advance that in the current position there will be a wall on the left
+    /// <summary>
+    /// It is known in advance that in the current position there will be a wall on the left
+    /// </summary>
     [Test]
     public void ShouldPlayerPositionOnXEqualPreviousPositionOnXWhenOnLeft()
     {
@@ -82,7 +92,9 @@ public class Tests
         Assert.AreEqual(t, y);
     }
 
-    // It is known in advance that in the current position there will be a wall on the right
+    /// <summary>
+    /// It is known in advance that in the current position there will be a wall on the right
+    /// </summary>
     [Test]
     public void ShouldPlayerPositionOnXEqualPreviousPositionOnXWhenOnRight()
     {
@@ -98,7 +110,9 @@ public class Tests
         Assert.AreEqual(t, y);
     }
 
-    // It is known in advance that in the current position there will be a wall on the up
+    /// <summary>
+    /// It is known in advance that in the current position there will be a wall on the up
+    /// </summary>
     [Test]
     public void ShouldPlayerPositionOnXEqualPreviousPositionOnXWhenUp()
     {
@@ -109,7 +123,9 @@ public class Tests
         Assert.AreEqual(t, y);
     }
 
-    // It is known in advance that in the current position there will be a wall on the down
+    /// <summary>
+    /// It is known in advance that in the current position there will be a wall on the down
+    /// </summary>
     [Test]
     public void ShouldPlayerPositionOnXEqualPreviousPositionOnXWhenDown()
     {
@@ -119,8 +135,4 @@ public class Tests
         Assert.AreEqual(z, x);
         Assert.AreEqual(t, y);
     }
-
-
-
-
 }

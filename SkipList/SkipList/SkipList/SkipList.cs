@@ -186,35 +186,34 @@ public class SkipList<T> : IList<T> where T : IComparable<T>
 
     public bool Remove(T item)
     {
-        bool answer = RecursiveDelete(heads[^1], item);
+        bool value = false;
+        RecursiveDelete(heads[^1], item, ref value);
         if (heads[^1].Next == null)
         {
             heads.RemoveAt(heads.Count - 1);
         }
 
-        return answer;
+        return value;
     }
 
     // Function for deleting an element
-    private bool RecursiveDelete(ListElement element, T item)
+    private void RecursiveDelete(ListElement element, T item, ref bool value)
     {
         while (element.Next != null && element.Next.Value!.CompareTo(item) < 0)
         {
             element = element.Next;
         }
+
         if (element.Down != null)
         {
-            return RecursiveDelete(element.Down, item);
+            RecursiveDelete(element.Down, item, ref value);
         }
-
 
         if (element.Next != null && element.Next.Value!.CompareTo(item) == 0)
         {
             element.Next = element.Next.Next;
-            return true;
+            value = true;
         }
-
-        return false;
     }
 
     public void RemoveAt(int index)

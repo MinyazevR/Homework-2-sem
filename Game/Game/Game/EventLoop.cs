@@ -1,17 +1,39 @@
 ﻿namespace Game;
+
 using System;
 
+/// <summary>
+/// A class representing an event handler loop
+/// </summary>
 public class EventLoop
 {
+    /// <summary>
+    /// Handler for the left move event
+    /// </summary>
     public event EventHandler<EventArgs> LeftHandler = (sender, args) => { };
+
+    /// <summary>
+    /// Handler for the right move event
+    /// </summary>
     public event EventHandler<EventArgs> RightHandler = (sender, args) => { };
+
+    /// <summary>
+    /// Handler for the up move event
+    /// </summary>
     public event EventHandler<EventArgs> UpHandler = (sender, args) => { };
+
+    /// <summary>
+    /// Handler for the down move event
+    /// </summary>
     public event EventHandler<EventArgs> DownHandler = (sender, args) => { };
 
-    public void Run()
+    /// <summary>
+    /// Event handler loop
+    /// </summary>
+    /// <param name="EndOfСycleСondition">Delegate loop exit condition</param>
+    public void Run(Func<bool> EndOfСycleСondition)
     {
-        // Magic 68 and 4 are the coordinates of the point you need to reach in order to win
-        while (Console.GetCursorPosition() != (68, 4))
+        while (!EndOfСycleСondition())
         {
             var key = Console.ReadKey(true);
             switch (key.Key)
